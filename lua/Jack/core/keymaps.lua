@@ -21,3 +21,32 @@ keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" 
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
+
+-- QUICKFIX 
+-- Navigate (most important)
+vim.keymap.set('n', ']q', ':cnext<CR>', { desc = 'Next quickfix' })
+vim.keymap.set('n', '[q', ':cprevious<CR>', { desc = 'Previous quickfix' })
+
+-- Open/close
+vim.keymap.set('n', '<leader>qo', ':copen<CR>', { desc = 'Open quickfix' })
+vim.keymap.set('n', '<leader>qc', ':cclose<CR>', { desc = 'Close quickfix' })
+
+-- Toggle (optional but nice)
+vim.keymap.set('n', '<leader>qq', function()
+  local qf_exists = false
+  for _, win in pairs(vim.fn.getwininfo()) do
+    if win["quickfix"] == 1 then
+      qf_exists = true
+      break
+    end
+  end
+  if qf_exists then
+    vim.cmd('cclose')
+  else
+    vim.cmd('copen')
+  end
+end, { desc = 'Toggle quickfix' })
+
+-- First/last
+vim.keymap.set('n', '<leader>qf', ':cfirst<CR>', { desc = 'First quickfix' })
+vim.keymap.set('n', '<leader>ql', ':clast<CR>', { desc = 'Last quickfix' })
