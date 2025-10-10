@@ -53,6 +53,7 @@ return {
         "eslint_d",
         -- C / C++
         "clang-format",
+
         -- C# / F#
         "csharpier",
         "fantomas",

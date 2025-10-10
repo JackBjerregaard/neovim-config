@@ -1,4 +1,3 @@
-require("Jack.core.options")
-require("Jack.core.keymaps")
+require("Jack.core")
 require("Jack.lazy")
 
