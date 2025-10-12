@@ -74,6 +74,7 @@
 | Normal | `<leader>fs` | Find string in cwd (live grep) |
 | Normal | `<leader>fc` | Find string under cursor |
 | Normal | `<leader>ft` | Find todos |
+| Normal | `<leader>fk` | Find keymaps |
 | Insert (Telescope) | `<C-k>` | Move selection up |
 | Insert (Telescope) | `<C-j>` | Move selection down |
 | Insert (Telescope) | `<C-q>` | Send to quickfix list |
@@ -100,6 +101,8 @@
 | Normal/Visual | `<leader>ca` | Show code actions |
 | Normal | `<leader>rn` | Rename symbol |
 | Normal | `<leader>rs` | Restart LSP server |
+| Insert | `<C-k>` | Toggle signature help |
+| Insert | `<M-n>` | Cycle through signatures |
 
 ---
 
@@ -111,6 +114,8 @@
 | Normal | `<leader>d` | Show line diagnostic |
 | Normal | `[d` | Previous diagnostic |
 | Normal | `]d` | Next diagnostic |
+| Normal | `<leader>td` | Toggle all diagnostics on/off |
+| Normal | `<leader>tw` | Toggle warnings (keep errors) |
 
 ---
 

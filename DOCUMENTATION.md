@@ -53,6 +53,7 @@ This Neovim configuration is built with modern Lua-based plugins and focuses on 
 │       ├── alpha.lua                 # Startup dashboard
 │       ├── auto-session.lua          # Session management
 │       ├── autopairs.lua             # Auto-close brackets/quotes
+│       ├── lsp-signature.lua         # Function signature help
 │       ├── colourscheme.lua          # Theme configuration
 │       ├── comment.lua               # Commenting plugin
 │       ├── dressing.lua              # Better UI
@@ -256,6 +257,14 @@ Plugins are organized in two directories:
 - Custom navigation (Ctrl-j/k)
 - Send results to quickfix (Ctrl-q)
 
+**Keybinds:**
+- `<leader>ff` - Fuzzy find files in cwd
+- `<leader>fr` - Fuzzy find recent files
+- `<leader>fs` - Find string in cwd
+- `<leader>fc` - Find string under cursor
+- `<leader>ft` - Find todos
+- `<leader>fk` - Find keymaps
+
 **File:** `lua/Jack/plugins/telescope.lua`
 
 ---
@@ -270,6 +279,8 @@ Plugins are organized in two directories:
 - Virtual text enabled
 - Custom signs (   󰠠  )
 - Severity sorting
+- Toggle all diagnostics: `<leader>td`
+- Toggle warnings only: `<leader>tw` (keeps errors visible)
 
 **File:** `lua/Jack/plugins/lsp/lspconfig.lua`
 
@@ -317,6 +328,18 @@ Plugins are organized in two directories:
 **Purpose:** File operation support for LSP
 **Repository:** antosha417/nvim-lsp-file-operations
 **File:** `lua/Jack/plugins/lsp/lspconfig.lua:6`
+
+#### lsp_signature.nvim
+**Purpose:** Automatic function signature help while typing
+**Repository:** ray-x/lsp_signature.nvim
+**Features:**
+- Shows function signatures in floating window
+- Highlights current parameter
+- Works with all LSP servers
+- Manual toggle with Ctrl-k
+- Cycle through signatures with Alt-n
+
+**File:** `lua/Jack/plugins/lsp-signature.lua`
 
 ---
 

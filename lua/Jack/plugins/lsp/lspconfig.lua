@@ -50,7 +50,12 @@ return {
         
         opts.desc = "Jump to next diagnostic (error/warning/hint)"
         keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-        
+
+        opts.desc = "Toggle all diagnostics on/off"
+        keymap.set("n", "<leader>td", function()
+          vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+        end, opts)
+
         -- Documentation keybind
         opts.desc = "Show documentation/signature help for symbol under cursor"
         keymap.set("n", "K", vim.lsp.buf.hover, opts)
@@ -78,7 +83,28 @@ return {
       update_in_insert = false,  -- Don't show diagnostics while typing
       severity_sort = true,       -- Sort by severity (errors first)
     })
-    
+
+    -- Toggle warnings (keep errors visible)
+    local warnings_visible = true
+    vim.keymap.set("n", "<leader>tw", function()
+      warnings_visible = not warnings_visible
+      vim.diagnostic.config({
+        virtual_text = warnings_visible and true or {
+          severity = { min = vim.diagnostic.severity.ERROR }
+        },
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.HINT] = "󰠠 ",
+            [vim.diagnostic.severity.INFO] = " ",
+          },
+        },
+        update_in_insert = false,
+        severity_sort = true,
+      })
+    end, { desc = "Toggle warning diagnostics (keep errors)" })
+
     -- Apply default configuration to all LSP servers
     vim.lsp.config("*", {
       capabilities = capabilities,
