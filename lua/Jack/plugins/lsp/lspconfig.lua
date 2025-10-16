@@ -85,7 +85,7 @@ return {
     })
 
     -- Toggle warnings (keep errors visible)
-    local warnings_visible = true
+    local warnings_visible = false
     vim.keymap.set("n", "<leader>tw", function()
       warnings_visible = not warnings_visible
       vim.diagnostic.config({
