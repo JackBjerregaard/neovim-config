@@ -51,6 +51,7 @@ return {
         -- Web
         "prettier",
         "eslint_d",
+        "stylelint",
         -- C / C++
         "clang-format",
 
