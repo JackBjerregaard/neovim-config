@@ -2,7 +2,7 @@
 
 **Author:** Jack
 **Config Location:** `/home/jack/.config/nvim/`
-**Last Updated:** 2025-10-10
+**Last Updated:** 2025-10-21
 
 ---
 
@@ -50,27 +50,22 @@ This Neovim configuration is built with modern Lua-based plugins and focuses on 
 │       ├── lsp/
 │       │   ├── lspconfig.lua         # LSP server configurations
 │       │   └── mason.lua             # LSP/tool installer
-│       ├── alpha.lua                 # Startup dashboard
+│       ├── snacks.lua                # Snacks.nvim (replaces multiple plugins)
 │       ├── auto-session.lua          # Session management
 │       ├── autopairs.lua             # Auto-close brackets/quotes
 │       ├── lsp-signature.lua         # Function signature help
 │       ├── colourscheme.lua          # Theme configuration
 │       ├── comment.lua               # Commenting plugin
-│       ├── dressing.lua              # Better UI
 │       ├── formatting.lua            # Code formatting
-│       ├── gitsigns.lua              # Git integration
-│       ├── indent-blankline.lua      # Indent guides
+│       ├── gitsigns.lua              # Git integration (hunks/staging)
 │       ├── linting.lua               # Linting configuration
 │       ├── lualine.lua               # Status line
 │       ├── nvim-cmp.lua              # Autocompletion
-│       ├── nvim-tree.lua             # File explorer
 │       ├── substitute.lua            # Substitute operator
 │       ├── surround.lua              # Surround text
-│       ├── telescope.lua             # Fuzzy finder
 │       ├── todo-comments.lua         # Todo highlighting
 │       ├── treesitter.lua            # Syntax highlighting
 │       ├── trouble.lua               # Diagnostics viewer
-│       ├── vim-maximizer.lua         # Split maximizer
 │       └── which-key.lua             # Keybind helper
 ├── KEYBINDS_CHEATSHEET.md           # Quick keybind reference
 └── DOCUMENTATION.md                  # This file
@@ -184,6 +179,35 @@ Plugins are organized in two directories:
 
 ### UI & Appearance
 
+#### snacks.nvim
+**Purpose:** Swiss Army knife plugin providing multiple features
+**Repository:** folke/snacks.nvim
+**Features Enabled:**
+- **bigfile** - Performance optimization for large files
+- **dashboard** - Startup screen (replaces alpha-nvim)
+- **explorer** - File tree explorer (replaces nvim-tree)
+- **indent** - Indent guides (replaces indent-blankline)
+- **input** - Better input/select UI (replaces dressing)
+- **notifier** - Notification system with toast popups
+- **picker** - Fuzzy finder (replaces telescope)
+- **quickfile** - Faster file loading
+- **scope** - Scope detection
+- **scroll** - Smooth scrolling
+- **statuscolumn** - Enhanced status column
+- **words** - Word highlighting and navigation
+- **lazygit** - Lazygit integration
+- **gitbrowse** - Open files in GitHub/GitLab
+- **terminal** - Floating terminal
+- **zen** - Distraction-free mode
+- **zoom** - Maximize current window
+- **scratch** - Temporary scratch buffers
+- **bufdelete** - Smart buffer deletion
+- **rename** - File renaming with LSP updates
+- **toggle** - Quick option toggles
+- **debug** - Debug utilities (dd, bt)
+
+**File:** `lua/Jack/plugins/snacks.lua`
+
 #### tokyonight.nvim
 **Purpose:** Color scheme
 **Repository:** folke/tokyonight.nvim
@@ -198,74 +222,33 @@ Plugins are organized in two directories:
 **Extra Features:** Shows pending Lazy.nvim updates
 **File:** `lua/Jack/plugins/lualine.lua`
 
-#### indent-blankline.nvim
-**Purpose:** Show indent guides
-**Repository:** lukas-reineke/indent-blankline.nvim
-**Character:** `┊`
-**File:** `lua/Jack/plugins/indent-blankline.lua`
-
-#### dressing.nvim
-**Purpose:** Better UI for vim.ui.select and vim.ui.input
-**Repository:** stevearc/dressing.nvim
-**File:** `lua/Jack/plugins/dressing.lua`
-
-#### alpha-nvim
-**Purpose:** Startup dashboard/greeter
-**Repository:** goolord/alpha-nvim
-**Header:** ASCII "NEOVIM" logo
-**Menu Items:**
-- New file
-- Toggle file explorer
-- Find file
-- Find word
-- Restore session
-- Quit
-
-**File:** `lua/Jack/plugins/alpha.lua`
-
 #### nvim-web-devicons
 **Purpose:** File icons support
 **Repository:** nvim-tree/nvim-web-devicons
-**Used by:** nvim-tree, telescope, lualine
+**Used by:** snacks.nvim, lualine
 
 ---
 
 ### File Management
 
-#### nvim-tree.lua
-**Purpose:** File explorer
-**Repository:** nvim-tree/nvim-tree.lua
-**Width:** 50 columns
-**Features:**
-- Relative line numbers
-- Custom folder arrows (  )
-- Indent markers
-- Git integration
-- Filters out `.DS_Store`
+**Note:** File management is now handled by snacks.nvim (see UI & Appearance section above)
 
-**File:** `lua/Jack/plugins/nvim-tree.lua`
+**Key Features:**
+- **snacks.explorer** - File tree explorer with git integration
+- **snacks.picker** - Fuzzy finding for files, grep, buffers, LSP symbols, and more
 
-#### telescope.nvim
-**Purpose:** Fuzzy finder for files, text, and more
-**Repository:** nvim-telescope/telescope.nvim
-**Extensions:**
-- **fzf-native:** Fast native sorting
-- **todo-comments:** Search todos
-
-**Features:**
-- Smart path display
-- Custom navigation (Ctrl-j/k)
-- Send results to quickfix (Ctrl-q)
-
-**Keybinds:**
-- `<leader>ff` - Fuzzy find files in cwd
-- `<leader>fr` - Fuzzy find recent files
-- `<leader>fs` - Find string in cwd
-- `<leader>fc` - Find string under cursor
+**Main Keybinds:**
+- `<leader>ee` - Toggle file explorer
+- `<leader>ef` - Toggle explorer on current file
+- `<leader>ff` - Find files in cwd
+- `<leader>fr` - Find recent files
+- `<leader>fs` - Grep in files
+- `<leader>fc` - Grep word under cursor
 - `<leader>ft` - Find todos
 - `<leader>fk` - Find keymaps
+- `<leader>bb` - Find buffers
 
-**File:** `lua/Jack/plugins/telescope.lua`
+**File:** `lua/Jack/plugins/snacks.lua`
 
 ---
 
@@ -435,17 +418,12 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 
 **File:** `lua/Jack/plugins/autopairs.lua`
 
-#### vim-maximizer
-**Purpose:** Maximize/restore splits
-**Repository:** szw/vim-maximizer
-**File:** `lua/Jack/plugins/vim-maximizer.lua`
-
 ---
 
 ### Git Integration
 
 #### gitsigns.nvim
-**Purpose:** Git decorations and hunks
+**Purpose:** Git decorations and hunk operations
 **Repository:** lewis6991/gitsigns.nvim
 **Features:**
 - Git signs in gutter
@@ -455,6 +433,16 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 - Diff view
 
 **File:** `lua/Jack/plugins/gitsigns.lua`
+
+#### snacks.nvim (Git Features)
+**Additional Git Features:**
+- **lazygit** - Full-featured git UI (`<leader>gg`)
+- **gitbrowse** - Open files/lines in GitHub/GitLab (`<leader>gf`)
+- **picker.git_branches** - Search/switch branches (`<leader>gb`)
+- **picker.git_log** - Browse commit history (`<leader>gc`)
+- **picker.git_status** - View git status (`<leader>gs`)
+
+**File:** `lua/Jack/plugins/snacks.lua`
 
 ---
 
@@ -642,10 +630,10 @@ All servers share the following configuration:
 2. Manually trigger: `<leader>mp`
 3. Check conform status: `:ConformInfo`
 
-### Telescope Not Finding Files
+### Picker/Finder Not Finding Files
 1. Ensure you're in a valid directory
-2. Try `:Telescope find_files hidden=true` for hidden files
-3. Check if ripgrep is installed for live_grep
+2. Check if ripgrep is installed for grep functionality
+3. Try the picker resume command: `<leader>sR`
 
 ### Plugin Not Loading
 1. Check lazy status: `:Lazy`
@@ -680,8 +668,15 @@ All servers share the following configuration:
 
 ### Diagnostics
 - `:Trouble` - Open Trouble window
-- `:TodoTelescope` - Find all todos
+- `<leader>ft` - Find all todos (snacks picker)
 - `:checkhealth` - Check Neovim health
+
+### Snacks.nvim
+- `<leader>gg` - Open lazygit
+- `<C-/>` - Toggle terminal
+- `<leader>z` - Toggle zen mode
+- `<leader>.` - Toggle scratch buffer
+- `<leader>bd` - Delete buffer
 
 ### Sessions
 - `:AutoSession search` - Search sessions

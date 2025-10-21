@@ -23,7 +23,6 @@
 | Normal | `<leader>sh` | Split window horizontally |
 | Normal | `<leader>se` | Make splits equal size |
 | Normal | `<leader>sx` | Close current split window |
-| Normal | `<leader>sm` | Maximize/minimize a split |
 
 ---
 
@@ -54,18 +53,16 @@
 
 ---
 
-## File Explorer (nvim-tree)
+## File Explorer (snacks.explorer)
 
 | Mode | Keybind | Description |
 |------|---------|-------------|
 | Normal | `<leader>ee` | Toggle file explorer |
 | Normal | `<leader>ef` | Toggle explorer on current file |
-| Normal | `<leader>ec` | Collapse file explorer |
-| Normal | `<leader>er` | Refresh file explorer |
 
 ---
 
-## Fuzzy Finding (Telescope)
+## File Finding & Pickers (snacks.picker)
 
 | Mode | Keybind | Description |
 |------|---------|-------------|
@@ -75,9 +72,112 @@
 | Normal | `<leader>fc` | Find string under cursor |
 | Normal | `<leader>ft` | Find todos |
 | Normal | `<leader>fk` | Find keymaps |
-| Insert (Telescope) | `<C-k>` | Move selection up |
-| Insert (Telescope) | `<C-j>` | Move selection down |
-| Insert (Telescope) | `<C-q>` | Send to quickfix list |
+| Normal | `<leader>bb` | Find buffers |
+
+---
+
+## Additional Pickers (snacks.picker)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>sa` | Search autocmds |
+| Normal | `<leader>sb` | Search buffer lines |
+| Normal | `<leader>sc` | Search commands |
+| Normal | `<leader>sd` | Search diagnostics |
+| Normal | `<leader>sh` | Search help pages |
+| Normal | `<leader>sH` | Search highlights |
+| Normal | `<leader>sj` | Search jumps |
+| Normal | `<leader>sk` | Search keymaps |
+| Normal | `<leader>sm` | Search marks |
+| Normal | `<leader>sM` | Search man pages |
+| Normal | `<leader>sq` | Search quickfix list |
+| Normal | `<leader>sR` | Resume last picker |
+| Normal | `<leader>su` | Search undo history |
+| Normal | `<leader>uC` | Search colorschemes |
+| Normal | `<leader>s"` | Search registers |
+
+---
+
+## Git (snacks.nvim)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>gb` | Git branches picker |
+| Normal | `<leader>gc` | Git commits/log picker |
+| Normal | `<leader>gs` | Git status picker |
+| Normal | `<leader>gg` | Open Lazygit |
+| Normal/Visual | `<leader>gf` | Git browse (open in browser) |
+
+---
+
+## Terminal (snacks.terminal)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<C-/>` | Toggle floating terminal |
+
+---
+
+## Zen & Focus Modes (snacks.nvim)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>z` | Toggle zen mode (distraction-free) |
+| Normal | `<leader>Z` | Toggle zoom (maximize current window - replaces vim-maximizer) |
+
+---
+
+## Scratch Buffers (snacks.scratch)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>.` | Toggle scratch buffer |
+| Normal | `<leader>S` | Select scratch buffer |
+
+---
+
+## Buffer Management (snacks.nvim)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>bd` | Delete buffer (smart) |
+| Normal | `<leader>bb` | Find buffers |
+
+---
+
+## Word References (snacks.words)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal/Terminal | `]]` | Jump to next word reference |
+| Normal/Terminal | `[[` | Jump to previous word reference |
+
+---
+
+## Notifications (snacks.notifier)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>hn` | Show notification history |
+| Normal | `<leader>un` | Dismiss all notifications |
+
+---
+
+## Toggle Options (snacks.toggle)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>us` | Toggle spelling |
+| Normal | `<leader>uw` | Toggle line wrap |
+| Normal | `<leader>uL` | Toggle relative numbers |
+| Normal | `<leader>ud` | Toggle diagnostics |
+| Normal | `<leader>ul` | Toggle line numbers |
+| Normal | `<leader>uc` | Toggle conceallevel |
+| Normal | `<leader>uT` | Toggle treesitter |
+| Normal | `<leader>ub` | Toggle dark/light background |
+| Normal | `<leader>uh` | Toggle inlay hints |
+| Normal | `<leader>ug` | Toggle indent guides |
+| Normal | `<leader>uD` | Toggle dim |
 
 ---
 
@@ -100,6 +200,7 @@
 |------|---------|-------------|
 | Normal/Visual | `<leader>ca` | Show code actions |
 | Normal | `<leader>rn` | Rename symbol |
+| Normal | `<leader>cR` | Rename file (with LSP updates) |
 | Normal | `<leader>rs` | Restart LSP server |
 | Insert | `<C-k>` | Toggle signature help |
 | Insert | `<M-n>` | Cycle through signatures |
@@ -280,6 +381,8 @@
 | **Git** | `]h` / `[h` | Next/prev hunk |
 | **Git** | `<Space>hs` | Stage hunk |
 | **Git** | `<Space>hp` | Preview hunk |
+| **Git** | `<Space>gg` | Open Lazygit |
+| **Terminal** | `<C-/>` | Toggle terminal |
 | **Errors** | `]d` / `[d` | Next/prev diagnostic |
 | **Errors** | `<Space>d` | Show diagnostic |
 | **Errors** | `<Space>xw` | Open Trouble |

@@ -17,19 +17,19 @@ return {
         
         -- Navigation keybinds
         opts.desc = "Show all references to symbol under cursor"
-        keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
-        
+        keymap.set("n", "gR", function() Snacks.picker.lsp_references() end, opts)
+
         opts.desc = "Jump to declaration of symbol"
         keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        
+
         opts.desc = "Jump to definition of symbol"
-        keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
-        
+        keymap.set("n", "gd", function() Snacks.picker.lsp_definitions() end, opts)
+
         opts.desc = "Show implementations of interface/abstract class"
-        keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
-        
+        keymap.set("n", "gi", function() Snacks.picker.lsp_implementations() end, opts)
+
         opts.desc = "Jump to type definition"
-        keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+        keymap.set("n", "gt", function() Snacks.picker.lsp_type_definitions() end, opts)
         
         -- Code action keybinds
         opts.desc = "Show available code actions (quick fixes/refactors)"
@@ -40,7 +40,7 @@ return {
         
         -- Diagnostic keybinds
         opts.desc = "Show all diagnostics in current buffer"
-        keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
+        keymap.set("n", "<leader>D", function() Snacks.picker.diagnostics_buffer() end, opts)
         
         opts.desc = "Show diagnostic for current line in floating window"
         keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
