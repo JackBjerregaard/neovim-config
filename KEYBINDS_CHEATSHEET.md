@@ -24,6 +24,15 @@
 | Normal | `<leader>se` | Make splits equal size |
 | Normal | `<leader>sx` | Close current split window |
 
+### Window Navigation
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<C-h>` | Move to left window |
+| Normal | `<C-j>` | Move to window below |
+| Normal | `<C-k>` | Move to window above |
+| Normal | `<C-l>` | Move to right window |
+
 ---
 
 ## Tab Management
@@ -115,6 +124,9 @@
 | Mode | Keybind | Description |
 |------|---------|-------------|
 | Normal | `<C-/>` | Toggle floating terminal |
+| Terminal | `jk` | Exit terminal mode (back to normal mode) |
+
+**Note:** After exiting terminal mode with `jk`, use `<C-h/j/k/l>` to navigate between windows.
 
 ---
 
@@ -383,6 +395,8 @@
 | **Git** | `<Space>hp` | Preview hunk |
 | **Git** | `<Space>gg` | Open Lazygit |
 | **Terminal** | `<C-/>` | Toggle terminal |
+| **Terminal** | `jk` (in terminal) | Exit terminal mode |
+| **Navigation** | `<C-h/j/k/l>` | Navigate between windows |
 | **Errors** | `]d` / `[d` | Next/prev diagnostic |
 | **Errors** | `<Space>d` | Show diagnostic |
 | **Errors** | `<Space>xw` | Open Trouble |
