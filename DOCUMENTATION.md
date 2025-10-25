@@ -197,7 +197,7 @@ Plugins are organized in two directories:
 - **words** - Word highlighting and navigation
 - **lazygit** - Lazygit integration
 - **gitbrowse** - Open files in GitHub/GitLab
-- **terminal** - Floating terminal
+- **terminal** - Floating terminal (`<C-/>` to toggle, `jk` to exit terminal mode)
 - **zen** - Distraction-free mode
 - **zoom** - Maximize current window
 - **scratch** - Temporary scratch buffers
@@ -485,6 +485,14 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 
 ### Navigation
 
+#### Window Navigation Keybindings
+**Purpose:** Fast navigation between windows
+**Features:**
+- `<C-h/j/k/l>` - Navigate between windows in normal mode
+- `jk` - Exit terminal mode (consistent with insert mode exit)
+
+**File:** `lua/Jack/core/keymaps.lua:20-26`
+
 #### vim-tmux-navigator
 **Purpose:** Seamless navigation between tmux panes and vim splits
 **Repository:** christoomey/vim-tmux-navigator
@@ -674,6 +682,7 @@ All servers share the following configuration:
 ### Snacks.nvim
 - `<leader>gg` - Open lazygit
 - `<C-/>` - Toggle terminal
+- `jk` (in terminal) - Exit terminal mode
 - `<leader>z` - Toggle zen mode
 - `<leader>.` - Toggle scratch buffer
 - `<leader>bd` - Delete buffer
