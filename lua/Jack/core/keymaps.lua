@@ -6,6 +6,9 @@ keymap.set("i", "jk", "<ESC>", {desc = "Exit insert mode with jk"})
 
 keymap.set("n", "<leader>nh", ":nohl<CR>", {desc = "Clear search highlights"})
 
+-- theme picker
+keymap.set("n", "<leader>th", ":Themery<CR>", {desc = "Open theme picker"})
+
 -- increment/decrement numbers 
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number"}) --increment 
 keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number"}) --decrement 
