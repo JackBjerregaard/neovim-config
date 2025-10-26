@@ -24,7 +24,7 @@ require("lazy").setup({ {import =  "Jack.plugins" }, {import = "Jack.plugins.lsp
 -- Auto-update plugins on exit
 vim.api.nvim_create_autocmd("VimLeavePre", {
   callback = function()
-    require("lazy").sync({ wait = true })
+    require("lazy").sync()
   end,
 })
 
