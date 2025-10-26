@@ -56,13 +56,16 @@ This Neovim configuration is built with modern Lua-based plugins and focuses on 
 │       ├── lsp-signature.lua         # Function signature help
 │       ├── colourscheme.lua          # Theme configuration
 │       ├── comment.lua               # Commenting plugin
+│       ├── flash.lua                 # Jump labels navigation
 │       ├── formatting.lua            # Code formatting
 │       ├── gitsigns.lua              # Git integration (hunks/staging)
+│       ├── grapple.lua               # File tagging & navigation
 │       ├── linting.lua               # Linting configuration
 │       ├── lualine.lua               # Status line
 │       ├── nvim-cmp.lua              # Autocompletion
 │       ├── substitute.lua            # Substitute operator
 │       ├── surround.lua              # Surround text
+│       ├── themery.lua               # Theme switcher
 │       ├── todo-comments.lua         # Todo highlighting
 │       ├── treesitter.lua            # Syntax highlighting
 │       ├── trouble.lua               # Diagnostics viewer
@@ -116,8 +119,9 @@ This Neovim configuration is built with modern Lua-based plugins and focuses on 
 | `clipboard` | "unnamedplus" | Use system clipboard |
 | `backspace` | "indent,eol,start" | Backspace works everywhere |
 | `swapfile` | false | Disable swap files |
+| `hidden` | true | Allow switching buffers with unsaved changes |
 
-**File:** `lua/Jack/core/options.lua:33-40`
+**File:** `lua/Jack/core/options.lua:33-43`
 
 ### Window Splitting
 
@@ -404,9 +408,24 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 **File:** `lua/Jack/plugins/surround.lua`
 
 #### substitute.nvim
-**Purpose:** Enhanced substitute operator
+**Purpose:** Enhanced substitute operator with flash.nvim integration
 **Repository:** gbprod/substitute.nvim
+**Features:**
+- Replace text with register contents without affecting register
+- Works with motions, line-wise, and visual selections
+- Flash.nvim integration for visual target selection
 **File:** `lua/Jack/plugins/substitute.lua`
+
+#### flash.nvim
+**Purpose:** Navigate code with search labels
+**Repository:** folke/flash.nvim
+**Features:**
+- Jump to any visible text with 2-character labels
+- Enhanced search mode (works with / and ? searches)
+- Treesitter-aware navigation for code structures
+- Integration with snacks.nvim pickers for faster navigation
+- Character motion enhancement with jump labels
+**File:** `lua/Jack/plugins/flash.lua`
 
 #### nvim-autopairs
 **Purpose:** Auto-close brackets, quotes, etc.
@@ -484,6 +503,28 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 ---
 
 ### Navigation
+
+#### grapple.nvim
+**Purpose:** Persistent file tagging and navigation
+**Repository:** cbochs/grapple.nvim
+**Features:**
+- Persistent tags on file paths that survive restarts
+- Scoped tags for per-project file management (git, cwd, lsp, etc.)
+- Rich UI for managing tags and scopes
+- Quick navigation to tagged files by index (1-9) or cycling
+- Statusline integration (shows tag name/index in lualine)
+**Default Scope:** git (tags per repository)
+**File:** `lua/Jack/plugins/grapple.lua`
+
+#### flash.nvim
+**Purpose:** Fast motion navigation with jump labels
+**Repository:** folke/flash.nvim
+**Features:**
+- Jump to any visible text with labeled search
+- Enhanced search mode for / and ?
+- Treesitter-aware code structure navigation
+- Works seamlessly with substitute.nvim and snacks.nvim pickers
+**File:** `lua/Jack/plugins/flash.lua`
 
 #### Window Navigation Keybindings
 **Purpose:** Fast navigation between windows

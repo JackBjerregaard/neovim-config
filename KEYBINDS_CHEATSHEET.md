@@ -327,12 +327,16 @@
 
 ## Substitute
 
-| Mode | Keybind | Description |
-|------|---------|-------------|
-| Normal | `<leader>r` | Substitute with motion |
-| Normal | `<leader>rr` | Substitute line |
-| Normal | `<leader>R` | Substitute to end of line |
-| Visual | `<leader>r` | Substitute selection |
+**Workflow:** Yank text first, then use substitute to replace target without affecting register.
+
+| Mode | Keybind | Description | Example |
+|------|---------|-------------|---------|
+| Normal | `<leader>r{motion}` | Substitute with motion | `yiw` → `<leader>riw` (replace word) |
+| Normal | `<leader>rr` | Substitute entire line | `yy` → move → `<leader>rr` |
+| Normal | `<leader>R` | Substitute to end of line | `yiw` → position → `<leader>R` |
+| Visual | `<leader>r` | Substitute selection | `yiw` → `viw` → `<leader>r` |
+
+**Flash Integration:** Use `<leader>r` + `r` (flash remote) to substitute at any visible location with labels.
 
 ---
 
@@ -376,6 +380,47 @@
 
 ---
 
+## File Navigation (Grapple)
+
+### Tag Management
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>m` | Toggle tag on current file |
+| Normal | `<leader>M` | Untag current file |
+| Normal | `<leader>a` | Open tags window |
+
+### Quick Select (Jump to Tagged Files)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>1-9` | Jump to tag 1-9 |
+| Normal | `]g` | Next grapple tag |
+| Normal | `[g` | Previous grapple tag |
+
+### Scope Management
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>as` | Open scopes window |
+| Normal | `<leader>al` | Open loaded scopes window |
+
+---
+
+## Flash Navigation
+
+### Jump Commands
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal/Visual/Operator | `s` | Flash jump (search and label) |
+| Normal/Visual/Operator | `S` | Flash treesitter (jump to code structures) |
+| Operator | `r` | Remote flash (operate on remote location) |
+| Operator/Visual | `R` | Treesitter search with flash labels |
+| Command (in search) | `<C-s>` | Toggle flash search labels |
+
+---
+
 ## Quick Reference: Most Used
 
 | Category | Keybind | Action |
@@ -383,6 +428,9 @@
 | **Files** | `<Space>ee` | Toggle file explorer |
 | **Files** | `<Space>ff` | Find files |
 | **Files** | `<Space>fs` | Search in files |
+| **Files** | `<Space>m` | Tag file (grapple) |
+| **Files** | `<Space>a` | View tags (grapple) |
+| **Files** | `<Space>1-9` | Jump to tag 1-9 |
 | **Code** | `gd` | Go to definition |
 | **Code** | `K` | Show docs |
 | **Code** | `<Space>ca` | Code actions |
@@ -390,6 +438,8 @@
 | **Code** | `<Space>mp` | Format |
 | **Edit** | `jk` | Exit insert mode |
 | **Edit** | `gcc` | Comment line |
+| **Edit** | `s` | Flash jump |
+| **Edit** | `<leader>r{motion}` | Substitute with motion |
 | **Git** | `]h` / `[h` | Next/prev hunk |
 | **Git** | `<Space>hs` | Stage hunk |
 | **Git** | `<Space>hp` | Preview hunk |
@@ -397,6 +447,7 @@
 | **Terminal** | `<C-/>` | Toggle terminal |
 | **Terminal** | `jk` (in terminal) | Exit terminal mode |
 | **Navigation** | `<C-h/j/k/l>` | Navigate between windows |
+| **Navigation** | `]g` / `[g` | Next/prev grapple tag |
 | **Errors** | `]d` / `[d` | Next/prev diagnostic |
 | **Errors** | `<Space>d` | Show diagnostic |
 | **Errors** | `<Space>xw` | Open Trouble |

@@ -55,6 +55,16 @@ return {
         theme = my_lualine_theme,
       },
       sections = {
+        lualine_b = {
+          {
+            function()
+              return require("grapple").name_or_index()
+            end,
+            cond = function()
+              return package.loaded["grapple"] and require("grapple").exists()
+            end,
+          },
+        },
         lualine_x = {
           {
             lazy_status.updates,
