@@ -13,16 +13,16 @@ return {
           colorscheme = "tokyonight-moon",
         },
         {
-          name = "Kanagawa",
-          colorscheme = "kanagawa",
-        },
-        {
           name = "Kanagawa Wave",
           colorscheme = "kanagawa-wave",
         },
         {
           name = "Kanagawa Dragon",
           colorscheme = "kanagawa-dragon",
+        },
+        {
+          name = "Kanagawa Lotus",
+          colorscheme = "kanagawa-lotus",
         },
         {
           name = "Catppuccin Mocha",

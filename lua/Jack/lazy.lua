@@ -13,11 +13,18 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({ {import =  "Jack.plugins" }, {import = "Jack.plugins.lsp"} }, {
   checker = {
-    enabled = true, 
+    enabled = true,
     notify = false,
   },
   change_detection = {
     notify = false,
   },
+})
+
+-- Auto-update plugins on exit
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    require("lazy").sync({ wait = true })
+  end,
 })
 
