@@ -5,10 +5,7 @@ return {
     local lint = require("lint")
     
     lint.linters_by_ft = {
-      -- Python
       python = { "pylint" },
-      
-      -- Web Development
       javascript = { "eslint_d" },
       typescript = { "eslint_d" },
       javascriptreact = { "eslint_d" },
@@ -17,13 +14,8 @@ return {
       scss = { "stylelint" },
       sass = { "stylelint" },
       less = { "stylelint" },
-      
-      -- C/C++
       c = { "cpplint" },
       cpp = { "cpplint" },
-      
-      -- Note: C# and F# typically use their LSP for diagnostics
-      -- Lua uses lua_ls for diagnostics via LSP
     }
     
     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

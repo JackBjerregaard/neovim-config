@@ -23,7 +23,7 @@ opt.cursorline = false
 -- (have to use iterm2 or any other true color terminal) 
 
 opt.termguicolors = true
-opt.background = "dark"
+-- opt.background = "dark" -- Commented out to allow light themes to work properly
 opt.signcolumn = "yes" --show sign column so that text doesn't shift 
 
 --backspace 

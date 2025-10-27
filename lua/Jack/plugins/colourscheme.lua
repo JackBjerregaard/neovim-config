@@ -4,8 +4,6 @@ return {
     "folke/tokyonight.nvim",
     priority = 1000,
     config = function()
-      local transparent = true -- set to true if you would like to enable transparency
-
       local bg = "#011628"
       local bg_dark = "#011423"
       local bg_highlight = "#143652"
@@ -18,20 +16,20 @@ return {
 
       require("tokyonight").setup({
         style = "night",
-        transparent = transparent,
+        transparent = false, -- We'll handle transparency with autocmd
         styles = {
-          sidebars = transparent and "transparent" or "dark",
-          floats = transparent and "transparent" or "dark",
+          sidebars = "dark",
+          floats = "dark",
         },
         on_colors = function(colors)
           colors.bg = bg
-          colors.bg_dark = transparent and colors.none or bg_dark
-          colors.bg_float = transparent and colors.none or bg_dark
+          colors.bg_dark = bg_dark
+          colors.bg_float = bg_dark
           colors.bg_highlight = bg_highlight
           colors.bg_popup = bg_dark
           colors.bg_search = bg_search
-          colors.bg_sidebar = transparent and colors.none or bg_dark
-          colors.bg_statusline = transparent and colors.none or bg_dark
+          colors.bg_sidebar = bg_dark
+          colors.bg_statusline = bg_dark
           colors.bg_visual = bg_visual
           colors.border = border
           colors.fg = fg
@@ -50,7 +48,12 @@ return {
     priority = 1000,
     config = function()
       require("kanagawa").setup({
-        transparent = true,
+        transparent = false, -- We'll handle transparency with autocmd
+        theme = "wave", -- default theme
+        background = {
+          dark = "wave",
+          light = "lotus",
+        },
       })
     end,
   },
@@ -62,7 +65,7 @@ return {
     priority = 1000,
     config = function()
       require("catppuccin").setup({
-        transparent_background = true,
+        transparent_background = false, -- We'll handle transparency with autocmd
         flavour = "mocha",
       })
     end,
@@ -74,7 +77,67 @@ return {
     priority = 1000,
     config = function()
       require("everforest").setup({
-        transparent_background_level = 2,
+        transparent_background_level = 0, -- We'll handle transparency with autocmd
+      })
+    end,
+  },
+
+  -- Apply transparency dynamically based on theme
+  {
+    "transparent-themes-handler",
+    dir = vim.fn.stdpath("config"),
+    lazy = false,
+    priority = 900,
+    config = function()
+      local function apply_transparency()
+        local colorscheme = vim.g.colors_name or ""
+        local is_light = false
+
+        -- Check if it's a light theme
+        if colorscheme == "tokyonight-day" or colorscheme == "catppuccin-latte" then
+          is_light = true
+        elseif colorscheme == "kanagawa" then
+          -- Kanagawa reports as just "kanagawa" for all variants, check the actual theme
+          local ok, kanagawa_config = pcall(require, "kanagawa")
+          if ok and kanagawa_config._CURRENT_THEME == "lotus" then
+            is_light = true
+          end
+        end
+
+        -- Also check vim.o.background as a fallback
+        if vim.o.background == "light" then
+          is_light = true
+        end
+
+        if not is_light then
+          -- Apply transparency for dark themes
+          vim.cmd([[
+            highlight Normal guibg=NONE ctermbg=NONE
+            highlight NormalNC guibg=NONE ctermbg=NONE
+            highlight SignColumn guibg=NONE ctermbg=NONE
+            highlight NormalFloat guibg=NONE ctermbg=NONE
+            highlight FloatBorder guibg=NONE ctermbg=NONE
+            highlight LineNr guibg=NONE ctermbg=NONE
+            highlight LineNrAbove guibg=NONE ctermbg=NONE
+            highlight LineNrBelow guibg=NONE ctermbg=NONE
+            highlight CursorLineNr guibg=NONE ctermbg=NONE
+          ]])
+        end
+        -- For light themes, do nothing - let the theme's background show
+      end
+
+      -- Apply on startup
+      vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function()
+          vim.defer_fn(apply_transparency, 50)
+        end,
+      })
+
+      -- Apply whenever colorscheme changes
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = function()
+          vim.defer_fn(apply_transparency, 10)
+        end,
       })
     end,
   },
