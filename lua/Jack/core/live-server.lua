@@ -37,9 +37,22 @@ vim.api.nvim_create_user_command("LiveServerStart", function()
 
   if live_server_job > 0 then
     vim.notify("Starting live server in: " .. dir, vim.log.levels.INFO)
-    -- Open browser using wslview after a short delay
+    -- Open browser after a short delay
     vim.defer_fn(function()
-      vim.fn.jobstart("wslview http://localhost:8080", { detach = true })
+      -- Detect platform and use appropriate command
+      local is_wsl = vim.fn.system("uname -r"):match("microsoft") ~= nil
+      local is_mac = vim.fn.has("macunix") == 1
+
+      if is_wsl then
+        -- WSL: use wslview
+        vim.fn.jobstart("wslview http://localhost:8080", { detach = true })
+      elseif is_mac then
+        -- macOS: open in Safari
+        vim.fn.jobstart("open -a Safari http://localhost:8080", { detach = true })
+      else
+        -- Linux: try xdg-open
+        vim.fn.jobstart("xdg-open http://localhost:8080", { detach = true })
+      end
     end, 1000)
   else
     vim.notify("Failed to start live server. Is it installed? (npm install -g live-server)", vim.log.levels.ERROR)
