@@ -11,8 +11,15 @@ vim.api.nvim_create_user_command("LiveServerStart", function()
     return
   end
 
-  -- Start live server in background
-  live_server_job = vim.fn.jobstart("live-server", {
+  -- Get the directory of the current file, or use cwd if no file is open
+  local dir = vim.fn.expand("%:p:h")
+  if dir == "" or dir == "." then
+    dir = vim.fn.getcwd()
+  end
+
+  -- Start live server in background with --no-browser flag
+  -- We'll manually open with wslview for WSL compatibility
+  live_server_job = vim.fn.jobstart("cd " .. vim.fn.shellescape(dir) .. " && live-server --no-browser", {
     on_exit = function()
       live_server_job = nil
       vim.notify("Live server stopped", vim.log.levels.INFO)
@@ -29,7 +36,11 @@ vim.api.nvim_create_user_command("LiveServerStart", function()
   })
 
   if live_server_job > 0 then
-    vim.notify("Starting live server...", vim.log.levels.INFO)
+    vim.notify("Starting live server in: " .. dir, vim.log.levels.INFO)
+    -- Open browser using wslview after a short delay
+    vim.defer_fn(function()
+      vim.fn.jobstart("wslview http://localhost:8080", { detach = true })
+    end, 1000)
   else
     vim.notify("Failed to start live server. Is it installed? (npm install -g live-server)", vim.log.levels.ERROR)
     live_server_job = nil
