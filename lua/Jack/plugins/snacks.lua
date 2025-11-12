@@ -21,7 +21,13 @@ return {
     scope = { enabled = false },
     scroll = { enabled = true },
     statuscolumn = { enabled = true },
-    terminal = { enabled = true },
+    terminal = {
+      enabled = true,
+      win = {
+        position = "bottom",
+        height = 0.32, -- roughly VS Code terminal height
+      },
+    },
     words = { enabled = true },
     styles = {
       notification = {
