@@ -32,5 +32,6 @@ return {
 
     { "<leader>as", function() require("grapple").toggle_scopes() end, desc = "Open scopes window" },
     { "<leader>al", function() require("grapple").toggle_loaded() end, desc = "Open loaded scopes window" },
+    { "<leader>ar", function() require("grapple").reset() end, desc = "Reset all tags" },
   },
 }
