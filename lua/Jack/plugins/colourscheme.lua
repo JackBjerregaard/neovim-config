@@ -1,45 +1,64 @@
-return {
-  "folke/tokyonight.nvim",
-  priority = 1000,
-  config = function()
-    local transparent = true -- set to true if you would like to enable transparency
+local state_file = vim.fn.stdpath("state") .. "/colorscheme.txt"
+local default_theme = "kanagawa"
 
-    local bg = "#011628"
-    local bg_dark = "#011423"
-    local bg_highlight = "#143652"
-    local bg_search = "#0A64AC"
-    local bg_visual = "#275378"
-    local fg = "#CBE0F0"
-    local fg_dark = "#B4D0E9"
-    local fg_gutter = "#627E97"
-    local border = "#547998"
+local function read_saved_theme()
+  local ok, lines = pcall(vim.fn.readfile, state_file)
+  if ok and lines[1] and lines[1] ~= "" then
+    return lines[1]
+  end
+end
 
-    require("tokyonight").setup({
-      style = "night",
-      transparent = transparent,
-      styles = {
-        sidebars = transparent and "transparent" or "dark",
-        floats = transparent and "transparent" or "dark",
-      },
-      on_colors = function(colors)
-        colors.bg = bg
-        colors.bg_dark = transparent and colors.none or bg_dark
-        colors.bg_float = transparent and colors.none or bg_dark
-        colors.bg_highlight = bg_highlight
-        colors.bg_popup = bg_dark
-        colors.bg_search = bg_search
-        colors.bg_sidebar = transparent and colors.none or bg_dark
-        colors.bg_statusline = transparent and colors.none or bg_dark
-        colors.bg_visual = bg_visual
-        colors.border = border
-        colors.fg = fg
-        colors.fg_dark = fg_dark
-        colors.fg_float = fg
-        colors.fg_gutter = fg_gutter
-        colors.fg_sidebar = fg_dark
-      end,
-    })
+local function apply_theme(name)
+  if not name or name == "" then
+    return false
+  end
+  local ok, err = pcall(vim.cmd.colorscheme, name)
+  if not ok then
+    vim.notify(
+      ("Colorscheme '%s' unavailable: %s"):format(name, err),
+      vim.log.levels.WARN
+    )
+    return false
+  end
+  return true
+end
 
-    vim.cmd("colorscheme tokyonight")
+local function persist_theme(name)
+  if not name or name == "" then
+    return
+  end
+  pcall(vim.fn.writefile, { name }, state_file)
+end
+
+local function load_theme()
+  if not apply_theme(read_saved_theme()) then
+    apply_theme(default_theme)
+  end
+end
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("JackPersistColorscheme", { clear = true }),
+  callback = function(args)
+    persist_theme(args.name or vim.g.colors_name)
   end,
+})
+
+return {
+  {
+    "rebelot/kanagawa.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      transparent = true,
+      theme = "wave",
+    },
+    config = function(_, opts)
+      require("kanagawa").setup(opts)
+      load_theme()
+    end,
+  },
+  { "AlexvZyl/nordic.nvim", lazy = false, opts = { transparent_bg = true } },
+  { "Mofiqul/dracula.nvim", lazy = false, opts = { transparent_bg = true } },
+  { "sainnhe/everforest", lazy = false },
+  { "tiagovla/tokyodark.nvim", lazy = false, opts = { transparent_background = true } },
 }

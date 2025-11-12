@@ -19,7 +19,7 @@ opt.smartcase = true --if you incldue mixed case in your seacrh, assumes you wan
 
 opt.cursorline = false
 
---turn on termiguicolours for tokyonight colorscheme to work
+-- enable true color support for modern themes
 -- (have to use iterm2 or any other true color terminal) 
 
 opt.termguicolors = true
