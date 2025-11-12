@@ -101,7 +101,16 @@ return {
       })
     end,
   },
-  { "AlexvZyl/nordic.nvim", lazy = false, opts = { transparent_bg = true } },
+  {
+    "AlexvZyl/nordic.nvim",
+    lazy = false,
+    opts = {
+      transparent = {
+        bg = true,
+        float = true,
+      },
+    },
+  },
   { "Mofiqul/dracula.nvim", lazy = false, opts = { transparent_bg = true } },
   { "sainnhe/everforest", lazy = false },
   { "tiagovla/tokyodark.nvim", lazy = false, opts = { transparent_background = true } },
