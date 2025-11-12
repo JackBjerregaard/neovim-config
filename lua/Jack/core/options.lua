@@ -41,3 +41,6 @@ vim.opt.swapfile = false
 
 -- allow switching buffers with unsaved changes
 opt.hidden = true
+
+-- disable automatic comment continuation
+opt.formatoptions:remove({ "r", "o" })
