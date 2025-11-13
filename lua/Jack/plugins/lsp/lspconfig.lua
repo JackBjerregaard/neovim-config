@@ -69,29 +69,14 @@ return {
     -- Enable autocompletion capabilities
     local capabilities = cmp_nvim_lsp.default_capabilities()
     
-    -- Configure diagnostic display
-    vim.diagnostic.config({
-      virtual_text = true,  -- Show inline error messages
-      signs = {
-        text = {
-          [vim.diagnostic.severity.ERROR] = " ",
-          [vim.diagnostic.severity.WARN] = " ",
-          [vim.diagnostic.severity.HINT] = "󰠠 ",
-          [vim.diagnostic.severity.INFO] = " ",
-        },
-      },
-      update_in_insert = false,  -- Don't show diagnostics while typing
-      severity_sort = true,       -- Sort by severity (errors first)
-    })
-
-    -- Toggle warnings (keep errors visible)
     local warnings_visible = false
-    vim.keymap.set("n", "<leader>tw", function()
-      warnings_visible = not warnings_visible
+
+    local function apply_diagnostic_config()
+      local severity_filter = warnings_visible and nil or { min = vim.diagnostic.severity.ERROR }
+
       vim.diagnostic.config({
-        virtual_text = warnings_visible and true or {
-          severity = { min = vim.diagnostic.severity.ERROR }
-        },
+        virtual_text = warnings_visible and true or { severity = severity_filter },
+        underline = warnings_visible and true or { severity = severity_filter },
         signs = {
           text = {
             [vim.diagnostic.severity.ERROR] = " ",
@@ -99,10 +84,20 @@ return {
             [vim.diagnostic.severity.HINT] = "󰠠 ",
             [vim.diagnostic.severity.INFO] = " ",
           },
+          severity = severity_filter,
         },
-        update_in_insert = false,
-        severity_sort = true,
+        update_in_insert = false,  -- Don't show diagnostics while typing
+        severity_sort = true,      -- Sort by severity (errors first)
       })
+    end
+
+    -- Configure diagnostic display (warnings off by default)
+    apply_diagnostic_config()
+
+    -- Toggle warnings (keep errors visible)
+    vim.keymap.set("n", "<leader>tw", function()
+      warnings_visible = not warnings_visible
+      apply_diagnostic_config()
     end, { desc = "Toggle warning diagnostics (keep errors)" })
 
     -- Apply default configuration to all LSP servers
