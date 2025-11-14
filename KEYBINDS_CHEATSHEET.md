@@ -123,7 +123,7 @@
 
 | Mode | Keybind | Description |
 |------|---------|-------------|
-| Normal | `<C-/>` | Toggle floating terminal |
+| Normal | `<leader>tt` | Toggle floating terminal |
 | Terminal | `jk` | Exit terminal mode (back to normal mode) |
 
 **Note:** After exiting terminal mode with `jk`, use `<C-h/j/k/l>` to navigate between windows.
@@ -461,7 +461,7 @@
 | **Git** | `<Space>hs` | Stage hunk |
 | **Git** | `<Space>hp` | Preview hunk |
 | **Git** | `<Space>gg` | Open Lazygit |
-| **Terminal** | `<C-/>` | Toggle terminal |
+| **Terminal** | `<leader>tt` | Toggle terminal |
 | **Terminal** | `jk` (in terminal) | Exit terminal mode |
 | **Navigation** | `<C-h/j/k/l>` | Navigate between windows |
 | **Navigation** | `]g` / `[g` | Next/prev grapple tag |

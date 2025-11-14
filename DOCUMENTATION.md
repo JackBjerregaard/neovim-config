@@ -201,7 +201,7 @@ Plugins are organized in two directories:
 - **words** - Word highlighting and navigation
 - **lazygit** - Lazygit integration
 - **gitbrowse** - Open files in GitHub/GitLab
-- **terminal** - Floating terminal (`<C-/>` to toggle, `jk` to exit terminal mode)
+- **terminal** - Floating terminal (`<leader>tt` to toggle, `jk` to exit terminal mode)
 - **zen** - Distraction-free mode
 - **zoom** - Maximize current window
 - **scratch** - Temporary scratch buffers
@@ -753,7 +753,7 @@ All servers share the following configuration:
 
 ### Snacks.nvim
 - `<leader>gg` - Open lazygit
-- `<C-/>` - Toggle terminal
+- `<leader>tt` - Toggle terminal
 - `jk` (in terminal) - Exit terminal mode
 - `<leader>z` - Toggle zen mode
 - `<leader>.` - Toggle scratch buffer

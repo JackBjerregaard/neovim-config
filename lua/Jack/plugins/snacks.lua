@@ -79,8 +79,7 @@ return {
     -- ============================================================================
     -- TERMINAL (new feature)
     -- ============================================================================
-    { "<C-/>", function() Snacks.terminal() end, desc = "Toggle Terminal" },
-    { "<C-_>", function() Snacks.terminal() end, desc = "which_key_ignore" }, -- same as C-/
+    { "<leader>tt", function() Snacks.terminal() end, desc = "Toggle Terminal" },
 
     -- ============================================================================
     -- BUFFER MANAGEMENT
