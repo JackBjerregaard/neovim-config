@@ -1,3 +1,42 @@
+local function git_status_finder(opts, ctx)
+  opts = opts or {}
+  local git_source = require("snacks.picker.source.git")
+  local proc = require("snacks.picker.source.proc")
+  local args = git_source.git("status", "-uall", "--porcelain=v1", "-z", { args = { "--no-pager" } }, opts)
+  if opts.ignored then
+    table.insert(args, "--ignored=matching")
+  end
+
+  local cwd = ctx:git_root()
+  ctx.picker:set_cwd(cwd)
+
+  local prev ---@type snacks.picker.finder.Item?
+  return proc.proc(
+    ctx:opts({
+      sep = "\0",
+      cwd = cwd,
+      cmd = "git",
+      args = args,
+      ---@param item snacks.picker.finder.Item
+      transform = function(item)
+        local status, file = item.text:match("^(..) (.+)$")
+        if status then
+          item.cwd = cwd
+          item.status = status
+          item.file = file
+          prev = item
+        elseif prev and prev.status:find("R") then
+          prev.rename = item.text
+          return false
+        else
+          return false
+        end
+      end,
+    }),
+    ctx
+  )
+end
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -16,7 +55,14 @@ return {
       enabled = true,
       timeout = 3000,
     },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      sources = {
+        git_status = {
+          finder = git_status_finder, -- ensure git_status always sets cmd when spawning git
+        },
+      },
+    },
     quickfile = { enabled = true },
     scope = { enabled = false },
     scroll = { enabled = true },
