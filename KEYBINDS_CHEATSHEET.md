@@ -107,6 +107,22 @@
 
 ---
 
+## Marks (marks.nvim)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `m,` | Set next available mark |
+| Normal | `m]` | Jump to next mark in buffer |
+| Normal | `m[` | Jump to previous mark in buffer |
+| Normal | `m;` | Preview nearest mark |
+| Normal | `m-` | Delete mark on current line |
+| Normal | `m_` | Delete all buffer-local marks |
+| Normal | `<leader>km` | List marks in current buffer |
+| Normal | `<leader>kM` | List all marks in project |
+| Normal | `<leader>kt` | Toggle gutter signs for marks |
+
+---
+
 ## Git (snacks.nvim)
 
 | Mode | Keybind | Description |
