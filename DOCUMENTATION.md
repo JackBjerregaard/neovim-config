@@ -207,6 +207,8 @@ Plugins are organized in two directories:
 - **scratch** - Temporary scratch buffers
 - **bufdelete** - Smart buffer deletion
 - **rename** - File renaming with LSP updates
+- **colorschemes** - Browse/apply themes via `<leader>th`
+- **news** - Read the latest `doc/news.txt` via `<leader>N`
 - **toggle** - Quick option toggles
 - **debug** - Debug utilities (dd, bt)
 
@@ -336,7 +338,8 @@ Plugins are organized in two directories:
 **Purpose:** Code formatting
 **Repository:** stevearc/conform.nvim
 **Format on Save:** Disabled (manual formatting only)
-**Timeout:** 1000ms
+**Timeout:** 5000ms when manually triggered
+**Keybind:** `<leader>fm` (normal/visual) formats the buffer or selection
 
 See [Formatters & Linters](#formatters--linters) section for full list.
 
@@ -437,6 +440,17 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 
 **File:** `lua/Jack/plugins/autopairs.lua`
 
+#### nvim-ts-autotag
+**Purpose:** Automatically close and rename HTML/JSX tags
+**Repository:** windwp/nvim-ts-autotag
+**Features:**
+- Auto insert closing tags when typing `<tag>`
+- Auto rename both start/end tags when editing the tag name
+- Filetype overrides (HTML tuned to always close tags)
+- Works alongside Treesitter-powered parsers
+
+**File:** `lua/Jack/plugins/autotag.lua`
+
 ---
 
 ### Git Integration
@@ -516,6 +530,17 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 **Default Scope:** git (tags per repository)
 **File:** `lua/Jack/plugins/grapple.lua`
 
+#### marks.nvim
+**Purpose:** Quick bookmarking inside the current buffer or project
+**Repository:** chentoast/marks.nvim
+**Features:**
+- Navigate to next/previous marks with `m]` / `m[`
+- Preview nearby marks and delete individual/all marks
+- Gutter indicators can be toggled with `<leader>kt`
+- Custom pickers for current buffer (`<leader>km`) or all marks (`<leader>kM`)
+
+**File:** `lua/Jack/plugins/marks.lua`
+
 #### flash.nvim
 **Purpose:** Fast motion navigation with jump labels
 **Repository:** folke/flash.nvim
@@ -569,6 +594,15 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 **Security Note:** Session IDs should be treated as secrets - anyone with a session ID can join and receive a copy of the project.
 
 **File:** `lua/Jack/plugins/nomad.lua`
+
+### Live Development Server
+
+**Purpose:** Quickly spin up `live-server` in the directory of the current file and open it in a browser.
+**Commands:** `:LiveServerStart`, `:LiveServerStop`, `:LiveServerToggle`
+**Keybind:** `<leader>ls` toggles the server from anywhere.
+**Requirements:** Install `live-server` globally (`npm install -g live-server`) and ensure `wslview`/`open`/`xdg-open` is available for browser launching.
+
+**File:** `lua/Jack/core/live-server.lua`
 
 ---
 
@@ -681,17 +715,18 @@ All servers share the following configuration:
 
 ## Color Scheme
 
-### Tokyo Night
+### Theme Stack
 
-**Theme:** Tokyo Night (Night variant)
-**Repository:** folke/tokyonight.nvim
-**Transparency:** Enabled
+**Primary Theme:** Tokyo Night (Night variant with transparency)
+**Alternate Themes:** Kanagawa (default fallback), Nordic, Dracula, Everforest, Tokyodark
+**Persistence:** Last used colorscheme is written to `stdpath("state")/colorscheme.txt` on every `ColorScheme` event and restored on launch.
+**Quick Switch:** Use `<leader>th` to browse all installed colorschemes via Snacks.
 
-#### Custom Colors
+#### Custom Tokyo Night Palette
 - **Background:** `#011628` (custom dark blue)
 - **Foreground:** `#CBE0F0` (light blue-white)
-- **Highlights:** Custom blue/teal palette
-- **Sidebars/Floats:** Transparent
+- **Highlights:** Curated blue/teal palette applied via `on_colors`
+- **Sidebars/Floats:** Transparent for floating windows and explorer panes
 
 **File:** `lua/Jack/plugins/colourscheme.lua`
 
@@ -707,7 +742,7 @@ All servers share the following configuration:
 
 ### Formatter Not Working
 1. Check if formatter is installed: `:Mason`
-2. Manually trigger: `<leader>mp`
+2. Manually trigger: `<leader>fm`
 3. Check conform status: `:ConformInfo`
 
 ### Picker/Finder Not Finding Files
@@ -758,6 +793,10 @@ All servers share the following configuration:
 - `<leader>z` - Toggle zen mode
 - `<leader>.` - Toggle scratch buffer
 - `<leader>bd` - Delete buffer
+
+### Live Server
+- `:LiveServerToggle` - Start/stop npm live-server
+- `<leader>ls` - Toggle the server without leaving normal mode
 
 ### Sessions
 - `:AutoSession search` - Search sessions
