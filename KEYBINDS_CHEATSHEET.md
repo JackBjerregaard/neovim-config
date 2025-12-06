@@ -191,6 +191,15 @@
 
 ---
 
+## Theme & Info
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>th` | Browse and apply colorschemes (Snacks picker) |
+| Normal | `<leader>N` | Open the built-in Neovim news buffer |
+
+---
+
 ## Toggle Options (snacks.toggle)
 
 | Mode | Keybind | Description |
@@ -227,7 +236,7 @@
 | Mode | Keybind | Description |
 |------|---------|-------------|
 | Normal/Visual | `<leader>ca` | Show code actions |
-| Normal | `<leader>rn` | Rename symbol |
+| Normal | `<leader>rn` | **Rename symbol (changes ALL instances project-wide)** |
 | Normal | `<leader>cR` | Rename file (with LSP updates) |
 | Normal | `<leader>rs` | Restart LSP server |
 | Insert | `<C-k>` | Toggle signature help |
@@ -360,7 +369,7 @@
 
 | Mode | Keybind | Description |
 |------|---------|-------------|
-| Normal/Visual | `<leader>mp` | Format file/range |
+| Normal/Visual | `<leader>fm` | Format current buffer or visual selection |
 | Normal | `<leader>l` | Trigger linting |
 
 ---
@@ -420,6 +429,7 @@
 |------|---------|-------------|
 | Normal | `<leader>as` | Open scopes window |
 | Normal | `<leader>al` | Open loaded scopes window |
+| Normal | `<leader>ar` | Reset all tags in the current scope |
 
 ---
 
@@ -454,6 +464,16 @@
 
 ---
 
+## Live Development Server
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `<leader>ls` | Toggle the npm `live-server` for the current project |
+
+**Prerequisite:** Install `live-server` globally (`npm install -g live-server`).
+
+---
+
 ## Quick Reference: Most Used
 
 | Category | Keybind | Action |
@@ -467,8 +487,8 @@
 | **Code** | `gd` | Go to definition |
 | **Code** | `K` | Show docs |
 | **Code** | `<Space>ca` | Code actions |
-| **Code** | `<Space>rn` | Rename |
-| **Code** | `<Space>mp` | Format |
+| **Code** | `<Space>rn` | Rename (all instances) |
+| **Code** | `<Space>fm` | Format |
 | **Edit** | `jk` | Exit insert mode |
 | **Edit** | `gcc` | Comment line |
 | **Edit** | `s` | Flash jump |
@@ -484,6 +504,7 @@
 | **Errors** | `]d` / `[d` | Next/prev diagnostic |
 | **Errors** | `<Space>d` | Show diagnostic |
 | **Errors** | `<Space>xw` | Open Trouble |
+| **Dev** | `<Space>ls` | Toggle live server |
 
 ---
 
