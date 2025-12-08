@@ -32,20 +32,24 @@ opt.backspace = "indent,eol,start" --allow backspace on indent, end of line or i
 --clipboard 
 opt.clipboard:append("unnamedplus") --use system clipboard as default register 
 
-local win32yank = vim.fn.stdpath("config") .. "/bin/win32yank.exe"
-if vim.fn.executable(win32yank) == 1 then
-  vim.g.clipboard = {
-    name = "win32yank-wsl",
-    copy = {
-      ["+"] = win32yank .. " -i --crlf",
-      ["*"] = win32yank .. " -i --crlf",
-    },
-    paste = {
-      ["+"] = win32yank .. " -o --lf",
-      ["*"] = win32yank .. " -o --lf",
-    },
-    cache_enabled = 0,
-  }
+local is_windows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
+local is_wsl = vim.fn.has("wsl") == 1
+if is_windows or is_wsl then
+  local win32yank = vim.fn.stdpath("config") .. "/bin/win32yank.exe"
+  if vim.fn.executable(win32yank) == 1 then
+    vim.g.clipboard = {
+      name = "win32yank-wsl",
+      copy = {
+        ["+"] = win32yank .. " -i --crlf",
+        ["*"] = win32yank .. " -i --crlf",
+      },
+      paste = {
+        ["+"] = win32yank .. " -o --lf",
+        ["*"] = win32yank .. " -o --lf",
+      },
+      cache_enabled = 0,
+    }
+  end
 end
 
 --split windows 
