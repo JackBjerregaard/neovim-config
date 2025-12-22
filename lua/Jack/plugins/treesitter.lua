@@ -1,11 +1,9 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  event = { "BufReadPre", "BufNewFile" },
+  commit = "4e230137097fc04b8cf61108e80ecd8f41665afe", -- Pin to last stable version with configs API
   build = ":TSUpdate",
   config = function()
-    local treesitter = require("nvim-treesitter.configs")
-
-    treesitter.setup({
+    require("nvim-treesitter.configs").setup({
       highlight = { enable = true },
       indent = { enable = true },
       ensure_installed = {
