@@ -4,7 +4,7 @@ return {
   build = ":TSUpdate",
   config = function()
     -- Install parsers
-    require("nvim-treesitter").install({
+    require("nvim-treesitter.install").ensure_installed({
       "python",
       "c", "cpp",
       "c_sharp",
