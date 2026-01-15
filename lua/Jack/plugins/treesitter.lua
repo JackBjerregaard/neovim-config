@@ -3,33 +3,17 @@ return {
   lazy = false,
   build = ":TSUpdate",
   config = function()
-    -- Install parsers
-    require("nvim-treesitter.install").ensure_installed({
-      "python",
-      "c", "cpp",
-      "c_sharp",
-      "html", "css", "javascript", "typescript",
-      "lua", "bash", "json", "yaml", "markdown", "vim", "vimdoc",
-    })
-
-    -- Enable treesitter highlighting for all filetypes
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "*",
-      callback = function()
-        local ok = pcall(vim.treesitter.start)
-        if not ok then
-          -- Fallback to syntax highlighting if treesitter fails
-          vim.cmd("syntax on")
-        end
-      end,
-    })
-
-    -- Enable treesitter-based indentation
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "python", "c", "cpp", "javascript", "typescript", "lua", "html", "css", "json", "yaml" },
-      callback = function()
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-      end,
+    require("nvim-treesitter.configs").setup({
+      ensure_installed = {
+        "python",
+        "c", "cpp",
+        "c_sharp",
+        "html", "css", "javascript", "typescript",
+        "lua", "bash", "json", "yaml", "markdown", "vim", "vimdoc",
+      },
+      highlight = { enable = true, additional_vim_regex_highlighting = false },
+      -- Treesitter indent is often inaccurate for Python; keep it disabled there
+      indent = { enable = true, disable = { "python" } },
     })
 
     -- Register bash parser for zsh files
