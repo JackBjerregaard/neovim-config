@@ -3,7 +3,9 @@ return {
   lazy = false,
   build = ":TSUpdate",
   config = function()
-    -- Install language parsers
+    local configs = require("nvim-treesitter.configs")
+
+    -- Language parsers we care about
     local parsers = {
       "python",
       "c",
@@ -22,36 +24,25 @@ return {
       "vimdoc",
     }
 
-    -- Install parsers asynchronously
-    require("nvim-treesitter").install(parsers)
+    configs.setup({
+      ensure_installed = parsers,
+      sync_install = false,
+      auto_install = false,
+      highlight = { enable = true },
+      indent = {
+        enable = true,
+        disable = { "python" },
+      },
+    })
 
     -- Register bash parser for zsh files
     vim.treesitter.language.register("bash", "zsh")
 
-    -- Enable treesitter highlighting for supported filetypes
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = parsers,
-      callback = function()
-        vim.treesitter.start()
-      end,
-    })
-
-    -- Enable treesitter highlighting for zsh (using bash parser)
+    -- Ensure treesitter is started for zsh (uses bash parser)
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "zsh",
       callback = function()
         vim.treesitter.start()
-      end,
-    })
-
-    -- Set up indentation (disable for Python as it's often inaccurate)
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = parsers,
-      callback = function(args)
-        local bufnr = args.buf
-        if vim.bo[bufnr].filetype ~= "python" then
-          vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-        end
       end,
     })
   end,
