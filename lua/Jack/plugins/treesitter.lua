@@ -3,7 +3,10 @@ return {
   lazy = false,
   build = ":TSUpdate",
   config = function()
-    local configs = require("nvim-treesitter.configs")
+    local ok, configs = pcall(require, "nvim-treesitter.configs")
+    if not ok then
+      configs = require("nvim-treesitter.config")
+    end
 
     -- Language parsers we care about
     local parsers = {
