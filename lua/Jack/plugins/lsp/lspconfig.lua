@@ -114,6 +114,9 @@ return {
     vim.lsp.config("emmet_ls", {
       filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
     })
+
+    -- 🗄️ SQL
+    vim.lsp.enable("sqlls")
     
     -- 🐍 Python
     vim.lsp.enable("pyright")

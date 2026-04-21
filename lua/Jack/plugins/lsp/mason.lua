@@ -30,6 +30,8 @@ return {
         "cssls",
         "emmet_ls",
         "tailwindcss",
+        -- SQL
+        "sqlls",
         -- C / C++
         "clangd",
         -- C# / F#
@@ -52,6 +54,8 @@ return {
         "prettier",
         "eslint_d",
         "stylelint",
+        -- SQL
+        "sqlfluff",
         -- C / C++
         "clang-format",
 

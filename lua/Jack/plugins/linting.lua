@@ -14,8 +14,17 @@ return {
       scss = { "stylelint" },
       sass = { "stylelint" },
       less = { "stylelint" },
+      sql = { "sqlfluff" },
       c = { "cpplint" },
       cpp = { "cpplint" },
+    }
+
+    lint.linters.sqlfluff.args = {
+      "lint",
+      "--dialect",
+      "postgres",
+      "--format=json",
+      "-",
     }
     
     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

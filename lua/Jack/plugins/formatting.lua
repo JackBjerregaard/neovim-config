@@ -22,6 +22,9 @@ return {
 				graphql = { "prettier" },
 				liquid = { "prettier" },
 
+				-- SQL
+				sql = { "sqlfluff" },
+
 				-- Python
 				python = { "isort", "black" },
 
@@ -37,6 +40,12 @@ return {
 
 				-- F#
 				fsharp = { "fantomas" },
+			},
+			formatters = {
+				sqlfluff = {
+					args = { "fix", "--dialect", "postgres", "-" },
+					require_cwd = false,
+				},
 			},
 			-- format_on_save = {
 			--   lsp_fallback = true,

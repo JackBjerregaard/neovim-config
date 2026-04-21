@@ -22,6 +22,7 @@ return {
       "bash",
       "json",
       "yaml",
+      "sql",
       "markdown",
       "vim",
       "vimdoc",
