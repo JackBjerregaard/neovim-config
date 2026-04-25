@@ -14,6 +14,7 @@ return {
       "c",
       "cpp",
       "c_sharp",
+      "fsharp",
       "html",
       "css",
       "javascript",
@@ -32,7 +33,11 @@ return {
       ensure_installed = parsers,
       sync_install = false,
       auto_install = false,
-      highlight = { enable = true },
+      highlight = {
+        enable = true,
+        -- Keep F# highlighted even before the parser finishes installing.
+        additional_vim_regex_highlighting = { "fsharp" },
+      },
       indent = {
         enable = true,
         disable = { "python" },
@@ -47,6 +52,13 @@ return {
       pattern = "zsh",
       callback = function()
         vim.treesitter.start()
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "fsharp",
+      callback = function(event)
+        vim.bo[event.buf].syntax = "fsharp"
       end,
     })
   end,

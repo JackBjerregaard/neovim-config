@@ -447,23 +447,6 @@
 
 ---
 
-## Collaborative Editing (Nomad)
-
-| Mode | Keybind | Description |
-|------|---------|-------------|
-| Normal | `<leader>cs` | Start collaboration session |
-| Normal | `<leader>cc` | Copy session ID to clipboard |
-| Normal | `<leader>cj` | Join collaboration session (prompts for session ID) |
-| Normal | `<leader>cl` | Leave collaboration session |
-
-**Workflow:**
-1. Start session with `<leader>cs`
-2. Copy session ID with `<leader>cc` and share it (treat as secret!)
-3. Others join with `<leader>cj` and paste the session ID
-4. See live cursor positions, selections, and edits from all peers
-
----
-
 ## Live Development Server
 
 | Mode | Keybind | Description |

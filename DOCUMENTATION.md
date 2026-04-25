@@ -566,35 +566,6 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 
 ---
 
-### Collaborative Editing
-
-#### nomad
-**Purpose:** Real-time collaborative editing
-**Repository:** nomad/nomad
-**Features:**
-- Real-time collaborative editing across Neovim instances
-- Live cursor positions and selections visible to all peers
-- Instant text edit synchronization
-- Session-based collaboration with unique session IDs
-- Powered by custom CRDTs for conflict-free synchronization
-
-**Keybinds:**
-- `<leader>cs` - Start a new collaboration session
-- `<leader>cc` - Copy current session ID to clipboard
-- `<leader>cj` - Join an existing session (prompts for session ID)
-- `<leader>cl` - Leave current collaboration session
-
-**Workflow:**
-1. Start a session with `:Mad collab start` or `<leader>cs`
-2. Copy the session ID with `:Mad collab copy-id` or `<leader>cc`
-3. Share the session ID with collaborators (treat as secret!)
-4. Others join with `:Mad collab join <session_id>` or `<leader>cj`
-5. All peers see live edits, cursor movements, and selections
-
-**Security Note:** Session IDs should be treated as secrets - anyone with a session ID can join and receive a copy of the project.
-
-**File:** `lua/Jack/plugins/nomad.lua`
-
 ### Live Development Server
 
 **Purpose:** Quickly spin up `live-server` in the directory of the current file and open it in a browser.
