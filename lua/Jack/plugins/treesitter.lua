@@ -22,9 +22,11 @@ return {
       "lua",
       "bash",
       "json",
+      "xml",
       "yaml",
       "sql",
       "markdown",
+      "make",
       "vim",
       "vimdoc",
     }
@@ -46,10 +48,11 @@ return {
 
     -- Register bash parser for zsh files
     vim.treesitter.language.register("bash", "zsh")
+    vim.treesitter.language.register("fsharp", "fslex")
 
     -- Ensure treesitter is started for zsh (uses bash parser)
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = "zsh",
+      pattern = { "zsh", "fslex" },
       callback = function()
         vim.treesitter.start()
       end,

@@ -40,8 +40,15 @@ return {
 
 				-- F#
 				fsharp = { "fantomas" },
+
+				-- Fasto
+				fasto = { "fasto_format" },
 			},
 			formatters = {
+				fasto_format = {
+					command = vim.fn.stdpath("config") .. "/bin/fasto-format",
+					stdin = true,
+				},
 				sqlfluff = {
 					args = { "fix", "--dialect", "postgres", "-" },
 					require_cwd = false,

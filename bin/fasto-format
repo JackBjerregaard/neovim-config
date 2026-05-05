@@ -1,0 +1,113 @@
+#!/usr/bin/env python3
+import re
+import sys
+
+
+INDENT = 2
+OPENERS = "([{"
+CLOSERS = ")]}"
+MATCHING = {")": "(", "]": "[", "}": "{"}
+
+
+def code_part(line):
+    """Return code before // comments, ignoring // inside strings/chars."""
+    quote = None
+    escaped = False
+    out = []
+
+    i = 0
+    while i < len(line):
+        ch = line[i]
+        nxt = line[i + 1] if i + 1 < len(line) else ""
+
+        if escaped:
+            out.append(ch)
+            escaped = False
+        elif ch == "\\" and quote:
+            out.append(ch)
+            escaped = True
+        elif quote:
+            out.append(ch)
+            if ch == quote:
+                quote = None
+        elif ch in ("'", '"'):
+            quote = ch
+            out.append(ch)
+        elif ch == "/" and nxt == "/":
+            break
+        else:
+            out.append(ch)
+
+        i += 1
+
+    return "".join(out)
+
+
+def bracket_delta(line):
+    delta = 0
+    for ch in code_part(line):
+        if ch in OPENERS:
+            delta += 1
+        elif ch in CLOSERS:
+            delta -= 1
+    return delta
+
+
+def leading_closers(line):
+    count = 0
+    for ch in line.lstrip():
+        if ch in CLOSERS:
+            count += 1
+        else:
+            break
+    return count
+
+
+def opens_layout_block(line):
+    code = code_part(line).strip()
+    if not code:
+        return False
+
+    if code.endswith(("=", "then", "else", "=>")):
+        return True
+
+    return bool(re.search(r"\bin$", code))
+
+
+def closes_layout_block(line):
+    code = code_part(line).strip()
+    return code.startswith(("in ", "else")) or code in {"in", "else"}
+
+
+def main():
+    indent = 0
+    formatted = []
+
+    for raw in sys.stdin.read().splitlines():
+        stripped = raw.strip()
+
+        if not stripped:
+            formatted.append("")
+            continue
+
+        current = indent
+        current -= leading_closers(stripped)
+        if closes_layout_block(stripped):
+            current -= 1
+
+        current = max(current, 0)
+        formatted.append((" " * (current * INDENT)) + stripped)
+
+        indent = current + bracket_delta(stripped)
+        if opens_layout_block(stripped):
+            indent += 1
+
+        indent = max(indent, 0)
+
+    sys.stdout.write("\n".join(formatted))
+    if formatted:
+        sys.stdout.write("\n")
+
+
+if __name__ == "__main__":
+    main()
