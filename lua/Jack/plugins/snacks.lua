@@ -2,7 +2,7 @@ local function git_status_finder(opts, ctx)
   opts = opts or {}
   local git_source = require("snacks.picker.source.git")
   local proc = require("snacks.picker.source.proc")
-  local args = git_source.git("status", "-uall", "--porcelain=v1", "-z", { args = { "--no-pager" } }, opts)
+  local args = git_source.git("status", "-unormal", "--porcelain=v1", "-z", { args = { "--no-pager" } }, opts)
   if opts.ignored then
     table.insert(args, "--ignored=matching")
   end
@@ -65,7 +65,7 @@ return {
     },
     quickfile = { enabled = true },
     scope = { enabled = false },
-    scroll = { enabled = true },
+    scroll = { enabled = false },
     statuscolumn = { enabled = true },
     terminal = {
       enabled = true,
