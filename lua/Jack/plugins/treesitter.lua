@@ -6,11 +6,6 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
   },
   config = function()
-    local ok, configs = pcall(require, "nvim-treesitter.configs")
-    if not ok then
-      configs = require("nvim-treesitter.config")
-    end
-
     -- Language parsers we care about
     local parsers = {
       "python",
@@ -34,64 +29,43 @@ return {
       "vimdoc",
     }
 
-    configs.setup({
-      ensure_installed = parsers,
-      sync_install = false,
-      auto_install = false,
-      highlight = {
-        enable = true,
-        -- Keep F# highlighted even before the parser finishes installing.
-        additional_vim_regex_highlighting = { "fsharp" },
-      },
-      indent = {
-        enable = true,
-        disable = { "python" },
-      },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
-          scope_incremental = false,
-          node_decremental = "<bs>",
-        },
-      },
-    })
+    local treesitter = require("nvim-treesitter")
+    treesitter.setup()
+    treesitter.install(parsers)
+    local parser_filetypes = vim.list_extend(vim.deepcopy(parsers), { "fslex", "zsh" })
 
-    require("nvim-treesitter-textobjects").setup({
-      select = {
-        lookahead = true,
-      },
-    })
+    local ok_select, textobject_select = pcall(require, "nvim-treesitter-textobjects.select")
+    if ok_select and type(textobject_select.select_textobject) == "function" then
+      local select_textobject = textobject_select.select_textobject
+      local function map_textobject(lhs, query, desc)
+        vim.keymap.set({ "x", "o" }, lhs, function()
+          select_textobject(query, "textobjects")
+        end, { desc = desc })
+      end
 
-    local select_textobject = require("nvim-treesitter-textobjects.select").select_textobject
-    local function map_textobject(lhs, query, desc)
-      vim.keymap.set({ "x", "o" }, lhs, function()
-        select_textobject(query, "textobjects")
-      end, { desc = desc })
+      map_textobject("af", "@function.outer", "Select around function")
+      map_textobject("if", "@function.inner", "Select inside function")
+      map_textobject("ac", "@class.outer", "Select around class")
+      map_textobject("ic", "@class.inner", "Select inside class")
     end
-
-    map_textobject("af", "@function.outer", "Select around function")
-    map_textobject("if", "@function.inner", "Select inside function")
-    map_textobject("ac", "@class.outer", "Select around class")
-    map_textobject("ic", "@class.inner", "Select inside class")
 
     -- Register bash parser for zsh files
     vim.treesitter.language.register("bash", "zsh")
     vim.treesitter.language.register("fsharp", "fslex")
 
-    -- Ensure treesitter is started for zsh (uses bash parser)
+    -- Keep F# files highlighted even if their parser has not finished installing.
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "zsh", "fslex" },
-      callback = function()
-        vim.treesitter.start()
+      pattern = { "fsharp", "fslex" },
+      callback = function(event)
+        vim.bo[event.buf].syntax = "fsharp"
       end,
     })
 
+    -- Start highlighting via Neovim core where a parser is installed.
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = "fsharp",
+      pattern = parser_filetypes,
       callback = function(event)
-        vim.bo[event.buf].syntax = "fsharp"
+        pcall(vim.treesitter.start, event.buf)
       end,
     })
   end,
