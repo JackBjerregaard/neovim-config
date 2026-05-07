@@ -13,6 +13,12 @@ return {
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("UserLspConfig", {}),
       callback = function(ev)
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        if client and client.name == "fsautocomplete" then
+          -- FSAC can return noisy semantic-token errors before a file has check results.
+          client.server_capabilities.semanticTokensProvider = nil
+        end
+
         local opts = { buffer = ev.buf, silent = true }
         
         -- Navigation keybinds
@@ -132,6 +138,24 @@ return {
     vim.lsp.enable("omnisharp")
     
     -- 🔷 F#
+    local home_dotnet_root = vim.fs.joinpath(vim.uv.os_homedir(), ".dotnet")
+    local dotnet_root = nil
+    if vim.fn.executable(vim.fs.joinpath(home_dotnet_root, "dotnet")) == 1 then
+      dotnet_root = home_dotnet_root
+    else
+      local dotnet = vim.fn.exepath("dotnet")
+      local resolved_dotnet = dotnet ~= "" and (vim.uv.fs_realpath(dotnet) or dotnet) or ""
+      dotnet_root = resolved_dotnet ~= "" and vim.fs.dirname(resolved_dotnet) or nil
+    end
+
+    if dotnet_root then
+      vim.lsp.config("fsautocomplete", {
+        cmd_env = {
+          DOTNET_ROOT = dotnet_root,
+          PATH = dotnet_root .. ":" .. vim.env.PATH,
+        },
+      })
+    end
     vim.lsp.enable("fsautocomplete")
     
     -- 🌙 Lua (Neovim configuration files)
