@@ -293,7 +293,7 @@ Plugins are organized in two directories:
 4. File paths
 
 **Features:**
-- VS Code-like icons (lspkind)
+- Plain text source labels
 - Preview window
 - Snippet expansion
 
@@ -304,7 +304,6 @@ Plugins are organized in two directories:
 - cmp_luasnip
 - LuaSnip
 - friendly-snippets
-- lspkind.nvim
 
 **File:** `lua/Jack/plugins/nvim-cmp.lua`
 

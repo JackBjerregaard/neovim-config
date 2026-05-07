@@ -1,1 +1,21 @@
+# Local logs and generated Neovim state
 .nvimlog
+.gitlog
+.tmp-cache/
+.tmp-data/
+.tmp-state/
+
+# Lazy.nvim generated lockfile/state
+lazy-lock.json
+
+# Editor and Lua build artifacts
+*.bak
+*.luac
+
+# Local AI assistant state
+.claude/
+.codex/
+.cursor/
+.continue/
+.aider*
+CLAUDE.md

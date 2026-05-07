@@ -77,12 +77,16 @@ return {
       vim.diagnostic.config({
         virtual_text = warnings_visible and true or { severity = severity_filter },
         underline = warnings_visible and true or { severity = severity_filter },
-        signs = {
+        signs = warnings_visible and {
           text = {
-            [vim.diagnostic.severity.ERROR] = " ",
-            [vim.diagnostic.severity.WARN] = " ",
-            [vim.diagnostic.severity.HINT] = "󰠠 ",
-            [vim.diagnostic.severity.INFO] = " ",
+            [vim.diagnostic.severity.ERROR] = "E",
+            [vim.diagnostic.severity.WARN] = "W",
+            [vim.diagnostic.severity.HINT] = "H",
+            [vim.diagnostic.severity.INFO] = "I",
+          },
+        } or {
+          text = {
+            [vim.diagnostic.severity.ERROR] = "E",
           },
           severity = severity_filter,
         },
