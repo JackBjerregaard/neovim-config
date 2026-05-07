@@ -31,7 +31,6 @@ return {
 
     local treesitter = require("nvim-treesitter")
     treesitter.setup()
-    treesitter.install(parsers)
     local parser_filetypes = vim.list_extend(vim.deepcopy(parsers), { "fslex", "zsh" })
 
     local ok_select, textobject_select = pcall(require, "nvim-treesitter-textobjects.select")
