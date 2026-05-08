@@ -4,7 +4,15 @@ return {
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
-    { "folke/neodev.nvim", opts = {} },
+    {
+      "folke/lazydev.nvim",
+      ft = "lua",
+      opts = {
+        library = {
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        },
+      },
+    },
   },
   config = function()
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -19,7 +27,7 @@ return {
           client.server_capabilities.semanticTokensProvider = nil
         end
 
-        local opts = { buffer = ev.buf, silent = true }
+        local opts = { buf = ev.buf, silent = true }
         
         -- Navigation keybinds
         opts.desc = "Show all references to symbol under cursor"
@@ -52,10 +60,14 @@ return {
         keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
         
         opts.desc = "Jump to previous diagnostic (error/warning/hint)"
-        keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+        keymap.set("n", "[d", function()
+          vim.diagnostic.jump({ count = -1 })
+        end, opts)
         
         opts.desc = "Jump to next diagnostic (error/warning/hint)"
-        keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+        keymap.set("n", "]d", function()
+          vim.diagnostic.jump({ count = 1 })
+        end, opts)
 
         opts.desc = "Toggle all diagnostics on/off"
         keymap.set("n", "<leader>td", function()
@@ -68,7 +80,9 @@ return {
         
         -- Utility keybind
         opts.desc = "Restart LSP server for current buffer"
-        keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+        keymap.set("n", "<leader>rs", function()
+          vim.cmd("lsp restart")
+        end, opts)
       end,
     })
     

@@ -278,7 +278,7 @@ Plugins are organized in two directories:
 **Repository:** williamboman/mason.nvim
 **UI:** Terminal UI for managing tools
 **Dependencies:**
-- mason-lspconfig.nvim
+- mason-org/mason-lspconfig.nvim
 - mason-tool-installer.nvim
 
 **File:** `lua/Jack/plugins/lsp/mason.lua`
@@ -287,10 +287,11 @@ Plugins are organized in two directories:
 **Purpose:** Autocompletion engine
 **Repository:** hrsh7th/nvim-cmp
 **Sources:**
-1. LSP completions
-2. Snippets (LuaSnip)
-3. Buffer text
-4. File paths
+1. LazyDev Lua workspace completions
+2. LSP completions
+3. Snippets (LuaSnip)
+4. Buffer text
+5. File paths
 
 **Features:**
 - Plain text source labels
@@ -304,12 +305,13 @@ Plugins are organized in two directories:
 - cmp_luasnip
 - LuaSnip
 - friendly-snippets
+- lazydev.nvim
 
 **File:** `lua/Jack/plugins/nvim-cmp.lua`
 
-#### neodev.nvim
+#### lazydev.nvim
 **Purpose:** Neovim Lua API completion and docs
-**Repository:** folke/neodev.nvim
+**Repository:** folke/lazydev.nvim
 **File:** `lua/Jack/plugins/lsp/lspconfig.lua:7`
 
 #### nvim-lsp-file-operations
@@ -706,7 +708,7 @@ All servers share the following configuration:
 
 ### LSP Not Starting
 1. Check if LSP is installed: `:Mason`
-2. Check LSP status: `:LspInfo`
+2. Check LSP status: `:checkhealth vim.lsp`
 3. Restart LSP: `<leader>rs`
 4. Check logs: `~/.local/state/nvim/lsp.log`
 
@@ -748,8 +750,8 @@ All servers share the following configuration:
 ### LSP Management
 - `:Mason` - Open Mason installer
 - `:MasonUpdate` - Update Mason
-- `:LspInfo` - Show LSP status
-- `:LspRestart` - Restart LSP servers
+- `:checkhealth vim.lsp` - Show LSP status
+- `:lsp restart` - Restart LSP servers
 
 ### Diagnostics
 - `:Trouble` - Open Trouble window

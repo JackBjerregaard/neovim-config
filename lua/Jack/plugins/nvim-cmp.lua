@@ -59,6 +59,7 @@ return {
         end, { "i", "s" }),
       }),
       sources = cmp.config.sources({
+        { name = "lazydev", group_index = 0 },
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "buffer" },
@@ -68,6 +69,7 @@ return {
         fields = { "abbr", "kind", "menu" },
         format = function(entry, item)
           item.menu = ({
+            lazydev = "[LazyDev]",
             nvim_lsp = "[LSP]",
             luasnip = "[Snippet]",
             buffer = "[Buffer]",

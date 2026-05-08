@@ -1,7 +1,7 @@
 return {
   "williamboman/mason.nvim",
   dependencies = {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
   config = function()
@@ -40,7 +40,7 @@ return {
         -- Lua
         "lua_ls",
       },
-      automatic_enable = true,
+      automatic_enable = false,
     })
 
     -- 🧰 Formatters / Linters / Misc Tools
