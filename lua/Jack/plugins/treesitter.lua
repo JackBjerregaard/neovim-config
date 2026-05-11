@@ -23,7 +23,6 @@ return {
       "xml",
       "yaml",
       "sql",
-      "markdown",
       "make",
       "vim",
       "vimdoc",
@@ -57,6 +56,16 @@ return {
       pattern = { "fsharp", "fslex" },
       callback = function(event)
         vim.bo[event.buf].syntax = "fsharp"
+      end,
+    })
+
+    -- Markdown currently trips Neovim 0.12's Treesitter highlighter with the
+    -- installed parser/query set, so keep Markdown on Vim syntax highlighting.
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "markdown",
+      callback = function(event)
+        pcall(vim.treesitter.stop, event.buf)
+        vim.bo[event.buf].syntax = "markdown"
       end,
     })
 

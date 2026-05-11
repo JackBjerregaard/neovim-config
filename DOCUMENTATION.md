@@ -653,6 +653,11 @@ All servers share the following configuration:
 | **csharpier** | C# |
 | **fantomas** | F# |
 
+#### Fasto
+| Formatter | Languages | Style |
+|-----------|-----------|-------|
+| **fasto-format** | Fasto (`.fo`) | 4-space indentation, 100-column line length |
+
 #### Configuration
 | Formatter | Languages |
 |-----------|-----------|
@@ -714,8 +719,9 @@ All servers share the following configuration:
 
 ### Formatter Not Working
 1. Check if formatter is installed: `:Mason`
-2. Manually trigger: `<leader>fm`
-3. Check conform status: `:ConformInfo`
+2. Confirm the buffer filetype with `:set filetype?`
+3. Manually trigger: `<leader>fm`
+4. Check conform status: `:ConformInfo`
 
 ### Picker/Finder Not Finding Files
 1. Ensure you're in a valid directory

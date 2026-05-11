@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 import re
 import sys
+import textwrap
 
 
-INDENT = 2
+INDENT = 4
+MAX_LINE_LENGTH = 100
 OPENERS = "([{"
 CLOSERS = ")]}"
 MATCHING = {")": "(", "]": "[", "}": "{"}
+BINARY_OPERATORS = {"+", "-", "*", "/", "==", "!=", "<", "<=", ">", ">=", "&&", "||"}
 
 
 def code_part(line):
@@ -41,6 +44,33 @@ def code_part(line):
         i += 1
 
     return "".join(out)
+
+
+def split_code_comment(line):
+    """Split a line into code and // comment parts, ignoring // inside strings/chars."""
+    quote = None
+    escaped = False
+
+    i = 0
+    while i < len(line):
+        ch = line[i]
+        nxt = line[i + 1] if i + 1 < len(line) else ""
+
+        if escaped:
+            escaped = False
+        elif ch == "\\" and quote:
+            escaped = True
+        elif quote:
+            if ch == quote:
+                quote = None
+        elif ch in ("'", '"'):
+            quote = ch
+        elif ch == "/" and nxt == "/":
+            return line[:i].rstrip(), line[i:].strip()
+
+        i += 1
+
+    return line.rstrip(), ""
 
 
 def bracket_delta(line):
@@ -79,6 +109,109 @@ def closes_layout_block(line):
     return code.startswith(("in ", "else")) or code in {"in", "else"}
 
 
+def split_token(text, index):
+    if text[index : index + 2] in BINARY_OPERATORS:
+        return text[index : index + 2]
+    return text[index]
+
+
+def find_wrap_point(text, limit):
+    quote = None
+    escaped = False
+    best = None
+
+    i = 0
+    while i < min(len(text), limit + 1):
+        ch = text[i]
+
+        if escaped:
+            escaped = False
+        elif ch == "\\" and quote:
+            escaped = True
+        elif quote:
+            if ch == quote:
+                quote = None
+        elif ch in ("'", '"'):
+            quote = ch
+        elif ch in ",;":
+            best = i + 1
+        elif ch in "+-*/<>=!&|":
+            token = split_token(text, i)
+            if token in BINARY_OPERATORS:
+                best = i
+                i += len(token) - 1
+
+        i += 1
+
+    if best is not None and best > 0:
+        return best
+
+    fallback = text.rfind(" ", 0, limit + 1)
+    if fallback > 0:
+        return fallback
+
+    return None
+
+
+def wrap_comment(indent, comment):
+    prefix = (" " * indent) + "// "
+    text = comment[2:].strip()
+    if not text:
+        return [(" " * indent) + "//"]
+
+    return textwrap.wrap(
+        text,
+        width=MAX_LINE_LENGTH,
+        initial_indent=prefix,
+        subsequent_indent=prefix,
+        break_long_words=False,
+        break_on_hyphens=False,
+    )
+
+
+def wrap_line(line):
+    if len(line) <= MAX_LINE_LENGTH:
+        return [line]
+
+    base_indent = len(line) - len(line.lstrip(" "))
+    stripped = line.lstrip(" ")
+
+    if stripped.startswith("//"):
+        return wrap_comment(base_indent, stripped)
+
+    code, comment = split_code_comment(line)
+    if comment:
+        if len(code) + 1 + len(comment) <= MAX_LINE_LENGTH:
+            return [line]
+        if code:
+            return wrap_line(code) + wrap_comment(base_indent, comment)
+        return wrap_comment(base_indent, comment)
+
+    lines = []
+    current = line.rstrip()
+    continuation_indent = base_indent + INDENT
+
+    while len(current) > MAX_LINE_LENGTH:
+        if continuation_indent >= MAX_LINE_LENGTH:
+            break
+
+        limit = MAX_LINE_LENGTH
+        point = find_wrap_point(current, limit)
+        if point is None or point <= base_indent:
+            break
+
+        head = current[:point].rstrip()
+        tail = current[point:].strip()
+        if not tail or len(tail) + continuation_indent >= len(current):
+            break
+
+        lines.append(head)
+        current = (" " * continuation_indent) + tail
+
+    lines.append(current)
+    return lines
+
+
 def main():
     indent = 0
     formatted = []
@@ -88,6 +221,7 @@ def main():
 
         if not stripped:
             formatted.append("")
+            indent = 0
             continue
 
         current = indent
@@ -96,7 +230,7 @@ def main():
             current -= 1
 
         current = max(current, 0)
-        formatted.append((" " * (current * INDENT)) + stripped)
+        formatted.extend(wrap_line((" " * (current * INDENT)) + stripped))
 
         indent = current + bracket_delta(stripped)
         if opens_layout_block(stripped):

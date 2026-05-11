@@ -48,7 +48,10 @@ return {
     explorer = { enabled = true },
     indent = {
       enabled = true,
-      scope = { enabled = false },
+      scope = {
+        enabled = false,
+        treesitter = { enabled = false },
+      },
     },
     input = { enabled = true },
     notifier = {
@@ -63,8 +66,11 @@ return {
         },
       },
     },
-    quickfile = { enabled = true },
-    scope = { enabled = false },
+    quickfile = { enabled = false },
+    scope = {
+      enabled = false,
+      treesitter = { enabled = false },
+    },
     scroll = { enabled = false },
     statuscolumn = { enabled = true },
     terminal = {
