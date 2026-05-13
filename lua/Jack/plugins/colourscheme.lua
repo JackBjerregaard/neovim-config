@@ -112,6 +112,31 @@ return {
     },
   },
   { "Mofiqul/dracula.nvim", lazy = false, opts = { transparent_bg = true } },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    opts = {
+      transparent_background = true,
+    },
+  },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    lazy = false,
+    opts = {
+      styles = {
+        transparency = true,
+      },
+    },
+  },
+  {
+    "ellisonleao/gruvbox.nvim",
+    lazy = false,
+    opts = {
+      transparent_mode = true,
+    },
+  },
   { "sainnhe/everforest", lazy = false },
   { "tiagovla/tokyodark.nvim", lazy = false, opts = { transparent_background = true } },
 }

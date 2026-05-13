@@ -132,6 +132,50 @@
 | Normal | `<leader>gs` | Git status picker |
 | Normal | `<leader>gg` | Open Lazygit |
 | Normal/Visual | `<leader>gf` | Git browse (open in browser) |
+| Normal | `<leader>gv` | CodeDiff changed-files explorer |
+| Normal | `<leader>gV` | CodeDiff current file against HEAD |
+| Normal | `<leader>gh` | CodeDiff commit history |
+
+### CodeDiff Commands
+
+| Command | Description |
+|---------|-------------|
+| `:CodeDiff @{u}` | Compare working tree against upstream branch; use after `git fetch` for latest remote changes |
+| `:CodeDiff file @{u}` | Compare current file against upstream branch |
+| `:CodeDiff HEAD` | Compare working tree against latest local commit |
+| `:CodeDiff HEAD~1 HEAD` | Compare latest local commit against its parent |
+| `:CodeDiff main...HEAD` | PR-style diff for changes since branching from `main` |
+
+### Inside CodeDiff
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal | `q` | Close CodeDiff |
+| Normal | `<leader>b` | Toggle CodeDiff explorer/history panel |
+| Normal | `]c` | Next diff hunk |
+| Normal | `[c` | Previous diff hunk |
+| Normal | `]f` | Next changed file |
+| Normal | `[f` | Previous changed file |
+| Normal | `t` | Toggle side-by-side/inline layout |
+| Normal | `g?` | Show CodeDiff help |
+
+---
+
+## Smooth Scrolling (neoscroll.nvim)
+
+| Mode | Keybind | Description |
+|------|---------|-------------|
+| Normal/Visual/Select | `<C-u>` | Smooth half-page up |
+| Normal/Visual/Select | `<C-d>` | Smooth half-page down |
+| Normal/Visual/Select | `<C-b>` | Smooth full-page up |
+| Normal/Visual/Select | `<C-f>` | Smooth full-page down |
+| Normal/Visual/Select | `<C-y>` | Smooth line scroll up without moving cursor |
+| Normal/Visual/Select | `<C-e>` | Smooth line scroll down without moving cursor |
+| Normal/Visual/Select | `zt` | Smooth scroll cursor line to top |
+| Normal/Visual/Select | `zz` | Smooth scroll cursor line to center |
+| Normal/Visual/Select | `zb` | Smooth scroll cursor line to bottom |
+
+Note: these mappings use native Vim scrolling in diff/CodeDiff windows so synchronized panes stay aligned.
 
 ---
 

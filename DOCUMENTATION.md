@@ -56,12 +56,14 @@ This Neovim configuration is built with modern Lua-based plugins and focuses on 
 │       ├── lsp-signature.lua         # Function signature help
 │       ├── colourscheme.lua          # Theme configuration
 │       ├── comment.lua               # Commenting plugin
+│       ├── codediff.lua              # VSCode-style diff viewer
 │       ├── flash.lua                 # Jump labels navigation
 │       ├── formatting.lua            # Code formatting
 │       ├── gitsigns.lua              # Git integration (hunks/staging)
 │       ├── grapple.lua               # File tagging & navigation
 │       ├── linting.lua               # Linting configuration
 │       ├── lualine.lua               # Status line
+│       ├── neoscroll.lua             # Smooth scrolling
 │       ├── nvim-cmp.lua              # Autocompletion
 │       ├── substitute.lua            # Substitute operator
 │       ├── surround.lua              # Surround text
@@ -213,6 +215,19 @@ Plugins are organized in two directories:
 - **debug** - Debug utilities (dd, bt)
 
 **File:** `lua/Jack/plugins/snacks.lua`
+
+#### neoscroll.nvim
+**Purpose:** Smooth scrolling for standard Vim movement commands
+**Repository:** karb94/neoscroll.nvim
+**Keybinds:**
+- `<C-u>` / `<C-d>` - Smooth half-page up/down
+- `<C-b>` / `<C-f>` - Smooth full-page up/down
+- `<C-y>` / `<C-e>` - Smooth line scrolling without moving cursor
+- `zt`, `zz`, `zb` - Smooth cursor positioning
+
+Smooth scrolling automatically falls back to native Vim scrolling in diff/scroll-bound windows, including CodeDiff, so synchronized panes stay aligned.
+
+**File:** `lua/Jack/plugins/neoscroll.lua`
 
 #### tokyonight.nvim
 **Purpose:** Color scheme
@@ -467,6 +482,31 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 - Diff view
 
 **File:** `lua/Jack/plugins/gitsigns.lua`
+
+#### codediff.nvim
+**Purpose:** VSCode-style diff viewer with side-by-side and inline layouts
+**Repository:** esmuellert/codediff.nvim
+**Keybinds:**
+- `<leader>gv` - Open CodeDiff changed-files explorer (`:CodeDiff`)
+- `<leader>gV` - Compare current file against `HEAD` (`:CodeDiff file HEAD`)
+- `<leader>gh` - Open CodeDiff history (`:CodeDiff history`)
+
+**Common Commands:**
+- `:CodeDiff @{u}` - Compare current working tree against the upstream branch. Use this for "changes since last push" after `git fetch`.
+- `:CodeDiff file @{u}` - Compare only the current file against upstream.
+- `:CodeDiff HEAD` - Compare current working tree against the latest local commit.
+- `:CodeDiff HEAD~1 HEAD` - Compare the latest local commit against its parent.
+- `:CodeDiff main...HEAD` - PR-style diff for changes introduced on the current branch since it split from `main`.
+
+**Inside CodeDiff:**
+- `q` - Close CodeDiff
+- `<leader>b` - Toggle the explorer/history panel
+- `]c` / `[c` - Next/previous hunk
+- `]f` / `[f` - Next/previous file
+- `t` - Toggle side-by-side/inline layout
+- `g?` - Show CodeDiff help
+
+**File:** `lua/Jack/plugins/codediff.lua`
 
 #### snacks.nvim (Git Features)
 **Additional Git Features:**

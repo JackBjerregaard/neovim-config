@@ -37,6 +37,23 @@ local function git_status_finder(opts, ctx)
   )
 end
 
+local curated_colorschemes = {
+  ["kanagawa"] = true,
+  ["tokyonight"] = true,
+  ["nordic"] = true,
+  ["dracula-soft"] = true,
+  ["catppuccin"] = true,
+  ["catppuccin-mocha"] = true,
+  ["catppuccin-macchiato"] = true,
+  ["catppuccin-frappe"] = true,
+  ["rose-pine"] = true,
+  ["rose-pine-main"] = true,
+  ["rose-pine-moon"] = true,
+  ["gruvbox"] = true,
+  ["everforest"] = true,
+  ["tokyodark"] = true,
+}
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -61,6 +78,11 @@ return {
     picker = {
       enabled = true,
       sources = {
+        colorschemes = {
+          transform = function(item)
+            return curated_colorschemes[item.text] and item or false
+          end,
+        },
         git_status = {
           finder = git_status_finder, -- ensure git_status always sets cmd when spawning git
         },
