@@ -156,8 +156,31 @@
 | Normal | `[c` | Previous diff hunk |
 | Normal | `]f` | Next changed file |
 | Normal | `[f` | Previous changed file |
+| Normal | `<leader>hs` | Stage current hunk |
+| Normal | `<leader>hu` | Unstage current hunk |
+| Normal | `<leader>hr` | Discard current hunk |
+| Normal | `-` | Stage/unstage selected file |
 | Normal | `t` | Toggle side-by-side/inline layout |
 | Normal | `g?` | Show CodeDiff help |
+
+### Suggested Git Workflow
+
+1. Code normally and watch the sign column for intentional changes.
+2. Use Gitsigns while editing:
+   - `]h` / `[h` - next/previous change
+   - `<leader>hp` - preview change
+   - `<leader>hs` - stage current hunk
+   - `<leader>hr` - discard current hunk
+   - `<leader>hd` - diff current file
+3. Use CodeDiff before committing:
+   - `<leader>gv` - review all changed files
+   - `]f` / `[f` - move between files
+   - `]c` / `[c` - move between hunks
+   - `<leader>hs` - stage hunk
+   - `-` - stage/unstage file
+   - `q` - quit
+4. Open lazygit with `<leader>gg`, `:LazyGit`, or your preferred keybind.
+5. In lazygit, check staged vs unstaged, write the commit message, commit, push/pull, switch branches, or stash as needed.
 
 ---
 

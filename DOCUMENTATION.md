@@ -503,6 +503,10 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 - `<leader>b` - Toggle the explorer/history panel
 - `]c` / `[c` - Next/previous hunk
 - `]f` / `[f` - Next/previous file
+- `<leader>hs` - Stage the current hunk
+- `<leader>hu` - Unstage the current hunk
+- `<leader>hr` - Discard the current hunk
+- `-` - Stage/unstage the selected file
 - `t` - Toggle side-by-side/inline layout
 - `g?` - Show CodeDiff help
 
@@ -517,6 +521,43 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 - **picker.git_status** - View git status (`<leader>gs`)
 
 **File:** `lua/Jack/plugins/snacks.lua`
+
+#### Suggested Git Workflow
+
+1. **Code normally**
+   - Edit, format, run tests, and keep an eye on the sign column for changed lines.
+   - Treat gutter signs as an early warning system: added, changed, and deleted lines should match what you intended before you leave the file.
+
+2. **Use Gitsigns while editing**
+   - `]h` / `[h` - Move to the next/previous changed hunk in the current file.
+   - `<leader>hp` - Preview the current hunk without opening a full diff.
+   - `<leader>hs` - Stage only the current hunk when it is ready.
+   - `<leader>hr` - Discard the current hunk when it is clearly unwanted.
+   - `<leader>hd` - Diff the current file when the local preview is not enough.
+   - Use visual mode with `<leader>hs` or `<leader>hr` to stage/reset a selected hunk range.
+   - Prefer small, intentional hunk staging so the eventual commit contains one logical change.
+
+3. **Use CodeDiff before committing**
+   - `<leader>gv` - Open the changed-files explorer and review the whole working tree.
+   - `]f` / `[f` - Move between changed files.
+   - `]c` / `[c` - Move between hunks inside the diff.
+   - `<leader>hs` - Stage the current hunk from the diff view.
+   - `<leader>hu` - Unstage the current hunk if it belongs in a later commit.
+   - `<leader>hr` - Discard the current hunk if it should not be kept.
+   - `-` - Stage or unstage the selected file.
+   - `q` - Quit CodeDiff when the review is done.
+   - Use this pass to catch debug prints, unrelated edits, accidental formatting churn, and files that should be split into a separate commit.
+
+4. **Open lazygit**
+   - Use `<leader>gg`, `:LazyGit`, or your preferred lazygit command.
+   - CodeDiff is the review step; lazygit is the final repository operation step.
+
+5. **Finish in lazygit**
+   - Check staged vs unstaged changes one last time.
+   - Confirm the staged set matches one commit-sized idea.
+   - Write a clear commit message that explains the change, not just the files touched.
+   - Commit, push, pull, switch branches, or stash as needed.
+   - If lazygit shows unexpected unstaged changes, return to Gitsigns or CodeDiff instead of committing blindly.
 
 ---
 
