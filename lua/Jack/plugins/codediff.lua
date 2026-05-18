@@ -123,28 +123,37 @@ return {
 
     vim.api.nvim_create_autocmd("User", {
       pattern = "CodeDiffOpen",
-      group = vim.api.nvim_create_augroup("JackCodeDiffHistoryPanel", { clear = true }),
+      group = vim.api.nvim_create_augroup("JackCodeDiffPanelToggle", { clear = true }),
       callback = function(args)
-        if not args.data or args.data.mode ~= "history" then
+        if not args.data then
           return
         end
 
         local tabpage = args.data.tabpage or vim.api.nvim_get_current_tabpage()
+        local mode = args.data.mode
         local lifecycle = require("codediff.ui.lifecycle")
 
         lifecycle.set_tab_keymap(tabpage, "n", opts.keymaps.view.toggle_explorer, function()
-          local history_panel = lifecycle.get_explorer(tabpage)
-          if history_panel and history_panel.split then
-            require("codediff.ui.history").toggle_visibility(history_panel)
+          local panel = lifecycle.get_explorer(tabpage)
+          if panel and panel.split then
+            if mode == "history" then
+              require("codediff.ui.history").toggle_visibility(panel)
+            else
+              require("codediff.ui.explorer").toggle_visibility(panel)
+            end
 
-            if not history_panel.is_hidden and history_panel.winid and vim.api.nvim_win_is_valid(history_panel.winid) then
-              vim.api.nvim_set_current_win(history_panel.winid)
+            if not panel.is_hidden and panel.winid and vim.api.nvim_win_is_valid(panel.winid) then
+              vim.api.nvim_set_current_win(panel.winid)
             end
             return
           end
 
-          vim.cmd("CodeDiff history")
-        end, { desc = "Toggle CodeDiff history panel" })
+          if mode == "history" then
+            vim.cmd("CodeDiff history")
+          else
+            vim.cmd("CodeDiff")
+          end
+        end, { desc = "Toggle CodeDiff explorer/history panel" })
       end,
     })
   end,
