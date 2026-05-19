@@ -52,7 +52,7 @@ return {
     keymaps = {
       view = {
         quit = "q",
-        toggle_explorer = "<leader>b",
+        toggle_explorer = "<leader>gp",
         focus_explorer = "<leader>e",
         next_hunk = "]c",
         prev_hunk = "[c",

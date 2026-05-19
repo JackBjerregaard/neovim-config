@@ -151,7 +151,7 @@
 | Mode | Keybind | Description |
 |------|---------|-------------|
 | Normal | `q` | Close CodeDiff |
-| Normal | `<leader>b` | Toggle CodeDiff explorer/history panel |
+| Normal | `<leader>gp` | Toggle CodeDiff explorer/history panel |
 | Normal | `]c` | Next diff hunk |
 | Normal | `[c` | Previous diff hunk |
 | Normal | `]f` | Next changed file |

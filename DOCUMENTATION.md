@@ -500,7 +500,7 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 
 **Inside CodeDiff:**
 - `q` - Close CodeDiff
-- `<leader>b` - Toggle the explorer/history panel
+- `<leader>gp` - Toggle the explorer/history panel
 - `]c` / `[c` - Next/previous hunk
 - `]f` / `[f` - Next/previous file
 - `<leader>hs` - Stage the current hunk
