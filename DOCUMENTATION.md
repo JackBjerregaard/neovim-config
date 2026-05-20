@@ -384,8 +384,9 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 **Repository:** nvim-treesitter/nvim-treesitter
 **Features:**
 - Syntax highlighting
-- Smart indentation
-- Incremental selection
+- Treesitter textobjects for functions/classes:
+  - `af` / `if` around/inside functions, so `yaf` yanks a whole function and `yif` yanks a function body
+  - `ac` / `ic` around/inside classes
 
 **Parsers Installed:**
 - Python
@@ -572,6 +573,8 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 - Location list viewer
 - Todo list
 - Auto-focus on open
+- Trouble previews items by default; previewing an item is separate from jumping to it
+- Inside Trouble, use `<CR>` to jump, `o` to jump and close, `<C-s>` for split, `<C-v>` for vertical split, `p` to preview, `P` to toggle auto-preview, and `q` to close
 
 **File:** `lua/Jack/plugins/trouble.lua`
 
@@ -618,6 +621,7 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 **Features:**
 - Navigate to next/previous marks with `m]` / `m[`
 - Preview nearby marks and delete individual/all marks
+- Close marks previews and list windows with `q`
 - Gutter indicators can be toggled with `<leader>kt`
 - Custom pickers for current buffer (`<leader>km`) or all marks (`<leader>kM`)
 

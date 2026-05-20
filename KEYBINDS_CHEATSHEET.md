@@ -117,9 +117,11 @@
 | Normal | `m;` | Preview nearest mark |
 | Normal | `m-` | Delete mark on current line |
 | Normal | `m_` | Delete all buffer-local marks |
+| Normal | `<leader>kD` | Delete all loaded marks |
 | Normal | `<leader>km` | List marks in current buffer |
 | Normal | `<leader>kM` | List all marks in project |
 | Normal | `<leader>kt` | Toggle gutter signs for marks |
+| Normal | `q` | Close marks preview/list windows |
 
 ---
 
@@ -380,16 +382,14 @@ Note: these mappings use native Vim scrolling in diff/CodeDiff windows so synchr
 | Insert | `<C-e>` | Close completion menu |
 | Insert | `<CR>` | Confirm selection |
 
----
+## Treesitter Textobjects
 
-## Treesitter Selection
-
-| Mode | Keybind | Description |
-|------|---------|-------------|
-| Normal | `<C-space>` | Start selection |
-| Visual | `<C-space>` | Expand selection |
-| Visual | `<C-s>` | Expand to scope |
-| Visual | `<BS>` | Shrink selection |
+| Mode | Keybind | Description | Example |
+|------|---------|-------------|---------|
+| Operator/Visual | `af` | Around function | `yaf` yanks a whole function |
+| Operator/Visual | `if` | Inside function | `yif` yanks a function body |
+| Operator/Visual | `ac` | Around class | `dac` deletes a whole class |
+| Operator/Visual | `ic` | Inside class | `vic` selects a class body |
 
 ---
 
@@ -450,6 +450,8 @@ Note: these mappings use native Vim scrolling in diff/CodeDiff windows so synchr
 | Normal | `<leader>xq` | Quickfix in Trouble |
 | Normal | `<leader>xl` | Location list in Trouble |
 | Normal | `<leader>xt` | Todos in Trouble |
+
+Inside Trouble: previewing an item is separate from jumping to it. `<CR>` jumps, `o` jumps and closes, `<C-s>` opens a split, `<C-v>` opens a vertical split, `p` previews, `P` toggles auto-preview, and `q` closes.
 
 ---
 
