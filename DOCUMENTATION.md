@@ -490,6 +490,7 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 **Keybinds:**
 - `<leader>gv` - Open CodeDiff changed-files explorer (`:CodeDiff`)
 - `<leader>gV` - Compare current file against `HEAD` (`:CodeDiff file HEAD`)
+- `<leader>gI` - Compare current file against the repository's initial commit
 - `<leader>gh` - Open CodeDiff history (`:CodeDiff history`)
 
 **Common Commands:**
@@ -498,6 +499,7 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 - `:CodeDiff HEAD` - Compare current working tree against the latest local commit.
 - `:CodeDiff HEAD~1 HEAD` - Compare the latest local commit against its parent.
 - `:CodeDiff main...HEAD` - PR-style diff for changes introduced on the current branch since it split from `main`.
+- `<leader>gI` - Compare the current file against the repository's initial commit without typing the commit hash.
 
 **Inside CodeDiff:**
 - `q` - Close CodeDiff

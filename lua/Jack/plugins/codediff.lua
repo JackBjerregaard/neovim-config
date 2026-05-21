@@ -5,6 +5,19 @@ return {
     { "<leader>gv", "<cmd>CodeDiff<CR>", desc = "CodeDiff changed files" },
     { "<leader>gV", "<cmd>CodeDiff file HEAD<CR>", desc = "CodeDiff current file" },
     { "<leader>gh", "<cmd>CodeDiff history<CR>", desc = "CodeDiff history" },
+    {
+      "<leader>gI",
+      function()
+        local root = vim.fn.trim(vim.fn.system("git rev-list --max-parents=0 HEAD"))
+        if vim.v.shell_error ~= 0 or root == "" then
+          vim.notify("Could not find initial git commit", vim.log.levels.ERROR)
+          return
+        end
+
+        vim.cmd("CodeDiff file " .. root)
+      end,
+      desc = "CodeDiff current file against initial commit",
+    },
   },
   opts = {
     highlights = {

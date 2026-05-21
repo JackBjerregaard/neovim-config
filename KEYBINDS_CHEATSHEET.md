@@ -136,6 +136,7 @@
 | Normal/Visual | `<leader>gf` | Git browse (open in browser) |
 | Normal | `<leader>gv` | CodeDiff changed-files explorer |
 | Normal | `<leader>gV` | CodeDiff current file against HEAD |
+| Normal | `<leader>gI` | CodeDiff current file against initial commit |
 | Normal | `<leader>gh` | CodeDiff commit history |
 
 ### CodeDiff Commands
@@ -147,6 +148,7 @@
 | `:CodeDiff HEAD` | Compare working tree against latest local commit |
 | `:CodeDiff HEAD~1 HEAD` | Compare latest local commit against its parent |
 | `:CodeDiff main...HEAD` | PR-style diff for changes since branching from `main` |
+| `<leader>gI` | Compare current file against the repository's initial commit |
 
 ### Inside CodeDiff
 
