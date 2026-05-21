@@ -121,15 +121,129 @@ return {
   config = function(_, opts)
     require("codediff").setup(opts)
 
+    local set_codediff_scroll_keymaps
+
+    local function apply_codediff_window_options(tabpage)
+      if not tabpage or not vim.api.nvim_tabpage_is_valid(tabpage) then
+        return
+      end
+
+      for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tabpage)) do
+        if vim.api.nvim_win_is_valid(win) then
+          local bufnr = vim.api.nvim_win_get_buf(win)
+
+          vim.wo[win].wrap = true
+          vim.wo[win].linebreak = true
+          vim.wo[win].breakindent = true
+          vim.wo[win].list = false
+          vim.wo[win].sidescrolloff = 0
+
+          if vim.api.nvim_buf_is_valid(bufnr) then
+            set_codediff_scroll_keymaps(bufnr)
+          end
+        end
+      end
+    end
+
+    local function codediff_native_scroll(lhs)
+      local tabpage = vim.api.nvim_get_current_tabpage()
+
+      apply_codediff_window_options(tabpage)
+
+      local count = vim.v.count > 0 and tostring(vim.v.count) or ""
+      local keys = vim.api.nvim_replace_termcodes(count .. lhs, true, false, true)
+      vim.api.nvim_feedkeys(keys, "nx", false)
+
+      vim.schedule(function()
+        apply_codediff_window_options(tabpage)
+        vim.cmd("redraw!")
+      end)
+    end
+
+    set_codediff_scroll_keymaps = function(bufnr)
+      local keymap_opts = { buffer = bufnr, silent = true, desc = "CodeDiff native scroll" }
+
+      for _, lhs in ipairs({ "<C-u>", "<C-d>", "<C-b>", "<C-f>" }) do
+        vim.keymap.set("n", lhs, function()
+          codediff_native_scroll(lhs)
+        end, keymap_opts)
+      end
+    end
+
+    local function schedule_codediff_window_options(tabpage)
+      vim.schedule(function()
+        apply_codediff_window_options(tabpage)
+      end)
+
+      for _, delay in ipairs({ 50, 250, 750 }) do
+        vim.defer_fn(function()
+          apply_codediff_window_options(tabpage)
+        end, delay)
+      end
+    end
+
+    local function patch_codediff_render_options()
+      local ok, render = pcall(require, "codediff.ui.view.render")
+      if not ok or render.__jack_window_options_patched then
+        return
+      end
+
+      local compute_and_render = render.compute_and_render
+      render.compute_and_render = function(...)
+        local result = compute_and_render(...)
+        local original_win = select(7, ...)
+        local modified_win = select(8, ...)
+
+        for _, win in ipairs({ original_win, modified_win }) do
+          if win and vim.api.nvim_win_is_valid(win) then
+            apply_codediff_window_options(vim.api.nvim_win_get_tabpage(win))
+          end
+        end
+
+        return result
+      end
+
+      local compute_and_render_conflict = render.compute_and_render_conflict
+      render.compute_and_render_conflict = function(...)
+        local result = compute_and_render_conflict(...)
+        local original_win = select(6, ...)
+        local modified_win = select(7, ...)
+
+        for _, win in ipairs({ original_win, modified_win }) do
+          if win and vim.api.nvim_win_is_valid(win) then
+            apply_codediff_window_options(vim.api.nvim_win_get_tabpage(win))
+          end
+        end
+
+        return result
+      end
+
+      render.__jack_window_options_patched = true
+    end
+
+    patch_codediff_render_options()
+
+    local window_group = vim.api.nvim_create_augroup("JackCodeDiffWindowOptions", { clear = true })
+
+    vim.api.nvim_create_autocmd("User", {
+      pattern = { "CodeDiffOpen", "CodeDiffFileSelect" },
+      group = window_group,
+      callback = function(args)
+        local tabpage = args.data and args.data.tabpage or vim.api.nvim_get_current_tabpage()
+        schedule_codediff_window_options(tabpage)
+      end,
+    })
+
     vim.api.nvim_create_autocmd("User", {
       pattern = "CodeDiffOpen",
       group = vim.api.nvim_create_augroup("JackCodeDiffHistoryPanel", { clear = true }),
       callback = function(args)
+        local tabpage = args.data and args.data.tabpage or vim.api.nvim_get_current_tabpage()
+
         if not args.data or args.data.mode ~= "history" then
           return
         end
 
-        local tabpage = args.data.tabpage or vim.api.nvim_get_current_tabpage()
         local lifecycle = require("codediff.ui.lifecycle")
 
         lifecycle.set_tab_keymap(tabpage, "n", opts.keymaps.view.toggle_explorer, function()

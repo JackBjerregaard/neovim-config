@@ -142,7 +142,36 @@ return {
     -- 🗄️ SQL
     vim.lsp.enable("sqlls")
     
+    local function find_python_venv(root_dir)
+      local candidates = { ".venv", "venv", "env" }
+      for _, name in ipairs(candidates) do
+        local python_path = vim.fs.joinpath(root_dir, name, "bin", "python")
+        if vim.uv.fs_stat(python_path) then
+          return name
+        end
+      end
+      return nil
+    end
+
     -- 🐍 Python
+    vim.lsp.config("pyright", {
+      before_init = function(_, config)
+        local root_dir = config.root_dir or vim.uv.cwd()
+        local venv = find_python_venv(root_dir)
+        if not venv then
+          return
+        end
+
+        config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
+          python = {
+            pythonPath = vim.fs.joinpath(root_dir, venv, "bin", "python"),
+            analysis = {
+              extraPaths = { root_dir },
+            },
+          },
+        })
+      end,
+    })
     vim.lsp.enable("pyright")
     
     -- 🔧 C / C++
