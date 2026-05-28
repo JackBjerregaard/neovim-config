@@ -384,8 +384,9 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 **Repository:** nvim-treesitter/nvim-treesitter
 **Features:**
 - Syntax highlighting
-- Smart indentation
-- Incremental selection
+- Treesitter textobjects for functions/classes:
+  - `af` / `if` around/inside functions, so `yaf` yanks a whole function and `yif` yanks a function body
+  - `ac` / `ic` around/inside classes
 
 **Parsers Installed:**
 - Python
@@ -489,6 +490,7 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 **Keybinds:**
 - `<leader>gv` - Open CodeDiff changed-files explorer (`:CodeDiff`)
 - `<leader>gV` - Compare current file against `HEAD` (`:CodeDiff file HEAD`)
+- `<leader>gI` - Compare current file against the repository's initial commit
 - `<leader>gh` - Open CodeDiff history (`:CodeDiff history`)
 
 **Common Commands:**
@@ -497,10 +499,11 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 - `:CodeDiff HEAD` - Compare current working tree against the latest local commit.
 - `:CodeDiff HEAD~1 HEAD` - Compare the latest local commit against its parent.
 - `:CodeDiff main...HEAD` - PR-style diff for changes introduced on the current branch since it split from `main`.
+- `<leader>gI` - Compare the current file against the repository's initial commit without typing the commit hash.
 
 **Inside CodeDiff:**
 - `q` - Close CodeDiff
-- `<leader>b` - Toggle the explorer/history panel
+- `<leader>gp` - Toggle the explorer/history panel
 - `]c` / `[c` - Next/previous hunk
 - `]f` / `[f` - Next/previous file
 - `<leader>hs` - Stage the current hunk
@@ -572,6 +575,8 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 - Location list viewer
 - Todo list
 - Auto-focus on open
+- Trouble previews items by default; previewing an item is separate from jumping to it
+- Inside Trouble, use `<CR>` to jump, `o` to jump and close, `<C-s>` for split, `<C-v>` for vertical split, `p` to preview, `P` to toggle auto-preview, and `q` to close
 
 **File:** `lua/Jack/plugins/trouble.lua`
 
@@ -618,6 +623,7 @@ See [Formatters & Linters](#formatters--linters) section for full list.
 **Features:**
 - Navigate to next/previous marks with `m]` / `m[`
 - Preview nearby marks and delete individual/all marks
+- Close marks previews and list windows with `q`
 - Gutter indicators can be toggled with `<leader>kt`
 - Custom pickers for current buffer (`<leader>km`) or all marks (`<leader>kM`)
 

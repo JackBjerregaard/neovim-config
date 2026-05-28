@@ -117,9 +117,11 @@
 | Normal | `m;` | Preview nearest mark |
 | Normal | `m-` | Delete mark on current line |
 | Normal | `m_` | Delete all buffer-local marks |
+| Normal | `<leader>kD` | Delete all loaded marks |
 | Normal | `<leader>km` | List marks in current buffer |
 | Normal | `<leader>kM` | List all marks in project |
 | Normal | `<leader>kt` | Toggle gutter signs for marks |
+| Normal | `q` | Close marks preview/list windows |
 
 ---
 
@@ -134,6 +136,7 @@
 | Normal/Visual | `<leader>gf` | Git browse (open in browser) |
 | Normal | `<leader>gv` | CodeDiff changed-files explorer |
 | Normal | `<leader>gV` | CodeDiff current file against HEAD |
+| Normal | `<leader>gI` | CodeDiff current file against initial commit |
 | Normal | `<leader>gh` | CodeDiff commit history |
 
 ### CodeDiff Commands
@@ -145,13 +148,14 @@
 | `:CodeDiff HEAD` | Compare working tree against latest local commit |
 | `:CodeDiff HEAD~1 HEAD` | Compare latest local commit against its parent |
 | `:CodeDiff main...HEAD` | PR-style diff for changes since branching from `main` |
+| `<leader>gI` | Compare current file against the repository's initial commit |
 
 ### Inside CodeDiff
 
 | Mode | Keybind | Description |
 |------|---------|-------------|
 | Normal | `q` | Close CodeDiff |
-| Normal | `<leader>b` | Toggle CodeDiff explorer/history panel |
+| Normal | `<leader>gp` | Toggle CodeDiff explorer/history panel |
 | Normal | `]c` | Next diff hunk |
 | Normal | `[c` | Previous diff hunk |
 | Normal | `]f` | Next changed file |
@@ -380,16 +384,14 @@ Note: these mappings use native Vim scrolling in diff/CodeDiff windows so synchr
 | Insert | `<C-e>` | Close completion menu |
 | Insert | `<CR>` | Confirm selection |
 
----
+## Treesitter Textobjects
 
-## Treesitter Selection
-
-| Mode | Keybind | Description |
-|------|---------|-------------|
-| Normal | `<C-space>` | Start selection |
-| Visual | `<C-space>` | Expand selection |
-| Visual | `<C-s>` | Expand to scope |
-| Visual | `<BS>` | Shrink selection |
+| Mode | Keybind | Description | Example |
+|------|---------|-------------|---------|
+| Operator/Visual | `af` | Around function | `yaf` yanks a whole function |
+| Operator/Visual | `if` | Inside function | `yif` yanks a function body |
+| Operator/Visual | `ac` | Around class | `dac` deletes a whole class |
+| Operator/Visual | `ic` | Inside class | `vic` selects a class body |
 
 ---
 
@@ -450,6 +452,8 @@ Note: these mappings use native Vim scrolling in diff/CodeDiff windows so synchr
 | Normal | `<leader>xq` | Quickfix in Trouble |
 | Normal | `<leader>xl` | Location list in Trouble |
 | Normal | `<leader>xt` | Todos in Trouble |
+
+Inside Trouble: previewing an item is separate from jumping to it. `<CR>` jumps, `o` jumps and closes, `<C-s>` opens a split, `<C-v>` opens a vertical split, `p` previews, `P` toggles auto-preview, and `q` closes.
 
 ---
 
