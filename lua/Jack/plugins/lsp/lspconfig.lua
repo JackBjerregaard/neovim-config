@@ -153,6 +153,36 @@ return {
       return nil
     end
 
+    local function python_venv_settings(root_dir, venv)
+      return {
+        python = {
+          venvPath = root_dir,
+          venv = venv,
+          pythonPath = vim.fs.joinpath(root_dir, venv, "bin", "python"),
+          analysis = {
+            extraPaths = { root_dir },
+          },
+        },
+      }
+    end
+
+    local function apply_python_venv_settings(client)
+      local root_dir = client.config.root_dir or vim.uv.cwd()
+      local venv = find_python_venv(root_dir)
+      if not venv then
+        return
+      end
+
+      local settings = python_venv_settings(root_dir, venv)
+      client.config.settings = vim.tbl_deep_extend("force", client.config.settings or {}, settings)
+
+      if client.settings then
+        client.settings.python = vim.tbl_deep_extend("force", client.settings.python or {}, settings.python)
+      end
+
+      client:notify("workspace/didChangeConfiguration", { settings = nil })
+    end
+
     -- 🐍 Python
     vim.lsp.config("pyright", {
       before_init = function(_, config)
@@ -162,14 +192,10 @@ return {
           return
         end
 
-        config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
-          python = {
-            pythonPath = vim.fs.joinpath(root_dir, venv, "bin", "python"),
-            analysis = {
-              extraPaths = { root_dir },
-            },
-          },
-        })
+        config.settings = vim.tbl_deep_extend("force", config.settings or {}, python_venv_settings(root_dir, venv))
+      end,
+      on_init = function(client)
+        apply_python_venv_settings(client)
       end,
     })
     vim.lsp.enable("pyright")
