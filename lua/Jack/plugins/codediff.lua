@@ -21,8 +21,8 @@ return {
   },
   opts = {
     highlights = {
-      line_insert = "DiffAdd",
-      line_delete = "DiffDelete",
+      line_insert = "JackCodeDiffAdd",
+      line_delete = "JackCodeDiffDelete",
       char_insert = nil,
       char_delete = nil,
       char_brightness = nil,
@@ -132,6 +132,18 @@ return {
     },
   },
   config = function(_, opts)
+    local function apply_codediff_highlights()
+      vim.api.nvim_set_hl(0, "JackCodeDiffAdd", { bg = "#1f3d2e" })
+      vim.api.nvim_set_hl(0, "JackCodeDiffDelete", { bg = "#4a2528" })
+    end
+
+    apply_codediff_highlights()
+
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      group = vim.api.nvim_create_augroup("JackCodeDiffHighlights", { clear = true }),
+      callback = apply_codediff_highlights,
+    })
+
     require("codediff").setup(opts)
 
     local set_codediff_scroll_keymaps
@@ -259,7 +271,7 @@ return {
 
         local lifecycle = require("codediff.ui.lifecycle")
 
-        lifecycle.set_tab_keymap(tabpage, "n", opts.keymaps.view.toggle_explorer, function()
+        local function toggle_history_panel()
           local history_panel = lifecycle.get_explorer(tabpage)
           if history_panel and history_panel.split then
             require("codediff.ui.history").toggle_visibility(history_panel)
@@ -271,7 +283,28 @@ return {
           end
 
           vim.cmd("CodeDiff history")
-        end, { desc = "Toggle CodeDiff history panel" })
+        end
+
+        local function set_toggle_keymap()
+          lifecycle.set_tab_keymap(tabpage, "n", opts.keymaps.view.toggle_explorer, toggle_history_panel, { desc = "Toggle CodeDiff history panel" })
+        end
+
+        set_toggle_keymap()
+
+        local history_panel = lifecycle.get_explorer(tabpage)
+        if history_panel and history_panel.on_file_select and not history_panel.__jack_toggle_reapply_patched then
+          local on_file_select = history_panel.on_file_select
+          history_panel.on_file_select = function(...)
+            local result = on_file_select(...)
+
+            for _, delay in ipairs({ 0, 50, 250, 750 }) do
+              vim.defer_fn(set_toggle_keymap, delay)
+            end
+
+            return result
+          end
+          history_panel.__jack_toggle_reapply_patched = true
+        end
       end,
     })
   end,
