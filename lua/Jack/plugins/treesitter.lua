@@ -30,6 +30,11 @@ return {
 
     local treesitter = require("nvim-treesitter")
     treesitter.setup()
+
+    -- nvim-treesitter's main branch does not use the old ensure_installed
+    -- module config. Install any configured parsers that are missing.
+    treesitter.install(parsers)
+
     local parser_filetypes = vim.list_extend(vim.deepcopy(parsers), { "fslex", "zsh" })
 
     local ok_select, textobject_select = pcall(require, "nvim-treesitter-textobjects.select")
