@@ -64,3 +64,6 @@ opt.hidden = true
 
 -- disable automatic comment continuation
 opt.formatoptions:remove({ "r", "o" })
+
+-- Preserve local file settings when restoring sessions.
+vim.opt.sessionoptions:append("localoptions")

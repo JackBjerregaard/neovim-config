@@ -60,50 +60,45 @@ return {
     
     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
     
-    local function file_in_cwd(file_name)
-      return vim.fs.find(file_name, {
-        upward = true,
-        stop = vim.uv.cwd():match("(.+)/"),
-        path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
-        type = "file",
-      })[1]
-    end
-    
-    local function remove_linter(linters, linter_name)
-      for k, v in pairs(linters) do
-        if v == linter_name then
-          linters[k] = nil
-          break
-        end
-      end
-    end
-    
-    local function linter_in_linters(linters, linter_name)
-      for k, v in pairs(linters) do
-        if v == linter_name then
+    local eslint_configs = {
+      "eslint.config.js", "eslint.config.mjs", "eslint.config.cjs",
+      "eslint.config.ts", "eslint.config.mts", "eslint.config.cts",
+      ".eslintrc", ".eslintrc.js", ".eslintrc.cjs",
+      ".eslintrc.json", ".eslintrc.yaml", ".eslintrc.yml",
+    }
+
+    local function has_eslint_config()
+      local name = vim.api.nvim_buf_get_name(0)
+      local path = name ~= "" and vim.fs.dirname(name) or vim.uv.cwd()
+      -- Search relative to the buffer, including monorepo parents, not :pwd.
+      return vim.fs.find(function(filename, directory)
+        if vim.tbl_contains(eslint_configs, filename) then
           return true
         end
-      end
-      return false
+        if filename == "package.json" then
+          local ok, package = pcall(function()
+            return vim.json.decode(table.concat(vim.fn.readfile(vim.fs.joinpath(directory, filename)), "\n"))
+          end)
+          return ok and type(package) == "table" and type(package.eslintConfig) == "table"
+        end
+        return false
+      end, { path = path, upward = true, type = "file" })[1] ~= nil
     end
-    
-    local function remove_linter_if_missing_config_file(linters, linter_name, config_file_name)
-      if linter_in_linters(linters, linter_name) and not file_in_cwd(config_file_name) then
-        remove_linter(linters, linter_name)
-      end
-    end
-    
+
     local function try_linting()
-      local linters = lint.linters_by_ft[vim.bo.filetype]
-      if linters then
-        -- Only run eslint_d if config file exists
-        remove_linter_if_missing_config_file(linters, "eslint_d", "eslint.config.js")
-        remove_linter_if_missing_config_file(linters, "eslint_d", ".eslintrc.js")
-        remove_linter_if_missing_config_file(linters, "eslint_d", ".eslintrc.json")
+      local configured = lint.linters_by_ft[vim.bo.filetype]
+      if not configured then
+        return
       end
-      lint.try_lint(linters)
+      -- Filtering must not mutate the shared list when switching projects.
+      local linters = vim.tbl_filter(function(name)
+        return name ~= "eslint_d" or has_eslint_config()
+      end, configured)
+      if #linters > 0 then
+        lint.try_lint(linters)
+      end
     end
-    
+
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
       group = lint_augroup,
       callback = function()

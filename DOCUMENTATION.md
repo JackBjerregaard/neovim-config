@@ -1,8 +1,8 @@
 # Neovim Configuration Documentation
 
 **Author:** Jack
-**Config Location:** `/home/jack/.config/nvim/`
-**Last Updated:** 2025-10-21
+**Config Location:** `stdpath("config")` (`~/.config/nvim` on Linux/macOS)
+**Installation:** See [README.md](README.md) for dependencies, platform notes, and verification.
 
 ---
 
@@ -842,7 +842,7 @@ All servers share the following configuration:
 
 ### LSP Management
 - `:Mason` - Open Mason installer
-- `:MasonUpdate` - Update Mason
+- `:MasonUpdate` - Refresh the package registry
 - `:checkhealth vim.lsp` - Show LSP status
 - `:lsp restart` - Restart LSP servers
 

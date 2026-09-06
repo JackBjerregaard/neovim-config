@@ -19,27 +19,32 @@ return {
       },
     })
 
-    -- 🌐 Language Servers (intelligence)
+    local servers = {
+      "pyright",
+      "ts_ls",
+      "html",
+      "cssls",
+      "emmet_ls",
+      "tailwindcss",
+      "sqlls",
+      "omnisharp",
+      "fsautocomplete",
+      "lua_ls",
+    }
+
+    -- Mason's clangd release has no Linux ARM64 build. Keep using an external
+    -- clangd there, while retaining automatic installation on other platforms.
+    local uname = vim.uv.os_uname()
+    local linux_arm64 = uname.sysname == "Linux"
+      and (uname.machine == "aarch64" or uname.machine == "arm64")
+    if not linux_arm64 then
+      table.insert(servers, "clangd")
+    elseif vim.fn.executable("clangd") == 0 then
+      vim.notify("Install clangd separately on Linux ARM64; see README.md", vim.log.levels.WARN)
+    end
+
     mason_lspconfig.setup({
-      ensure_installed = {
-        -- Python
-        "pyright",
-        -- Web
-        "ts_ls",
-        "html",
-        "cssls",
-        "emmet_ls",
-        "tailwindcss",
-        -- SQL
-        "sqlls",
-        -- C / C++
-        "clangd",
-        -- C# / F#
-        "omnisharp",
-        "fsautocomplete",
-        -- Lua
-        "lua_ls",
-      },
+      ensure_installed = servers,
       automatic_enable = false,
     })
 
@@ -58,6 +63,7 @@ return {
         "sqlfluff",
         -- C / C++
         "clang-format",
+        "cpplint",
 
         -- C# / F#
         "csharpier",

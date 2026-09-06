@@ -1,12 +1,14 @@
 # Local logs and generated Neovim state
 .nvimlog
+nvim.log
 .gitlog
 .tmp-cache/
 .tmp-data/
 .tmp-state/
 
-# Lazy.nvim generated lockfile/state
-lazy-lock.json
+# Machine-specific configuration and setup notes
+local.lua
+LOCAL_SETUP.md
 
 # Editor and Lua build artifacts
 *.bak

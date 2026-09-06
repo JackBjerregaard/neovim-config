@@ -139,6 +139,8 @@ return {
       filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
     })
 
+    vim.lsp.enable("emmet_ls")
+
     -- 🗄️ SQL
     vim.lsp.enable("sqlls")
     
@@ -240,5 +242,6 @@ return {
         },
       },
     })
+    vim.lsp.enable("lua_ls")
   end,
 }
